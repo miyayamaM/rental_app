@@ -15,3 +15,4 @@ services:
       MYSQL_DATABASE: database
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
