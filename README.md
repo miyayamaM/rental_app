@@ -1,5 +1,7 @@
 ## 最初の立ち上げ
 
+
+```
 $ git clone https://github.com/miyayamaM/rental_app.git
 $ cd rental_app
 $ docker-compose up -d
@@ -15,3 +17,4 @@ root@XXXXXXXX:/var/www/app# php artisan key:generate --env=testing
 root@XXXXXXXX:/var/www/app# php artisan migrate --env=testing
 root@XXXXXXXX:/var/www/app# php artisan test
 
+```
