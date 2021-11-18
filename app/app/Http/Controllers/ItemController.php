@@ -11,4 +11,16 @@ class ItemController extends Controller
         $items = Item::all();
         return view('item.index', compact('items'));
     }
+
+    public function new() {
+        return view('item.new');
+    }
+
+    public function create(Request $request) {
+        $request->validate(
+            ['name' => ['required', 'string', 'max:255']]
+        );
+        Item::create(['name' => $request->name]);
+        return redirect('/items');
+    }
 }

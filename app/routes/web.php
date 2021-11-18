@@ -23,3 +23,5 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 Route::get('/items', ['App\Http\Controllers\ItemController', 'index']);
+Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new']);
+Route::post('/items', ['App\Http\Controllers\ItemController', 'create']);
