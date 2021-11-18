@@ -18,13 +18,14 @@
         </style>
     </head>
     <body class="antialiased">
-        <p>現在の物品名：{{ $item -> name}}</p>
+        <p>現在の物品名：{{ $item -> name }}</p>
         <div>
-            <form method="POST" action="/items/{{ $item->id }}">
+            <form method="POST" action="{{ route('item.update', ['id' => $item->id]) }}">
+                @method('PUT')
                 @csrf
-                変更後の物品名<input type="text" name="name">
+                変更後の物品名：<input type="text" name="name">
         </br>
-                <input type="submit">
+                <input type="submit" value="変更">
             </form>
         </div>
         <div>
