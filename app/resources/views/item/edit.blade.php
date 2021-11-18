@@ -27,5 +27,12 @@
                 <input type="submit">
             </form>
         </div>
+        <div>
+            <form method="POST" action="{{ route('item.destroy', ['id' => $item->id]) }}">
+                @method('DELETE')
+                @csrf
+                <input type="submit" value="削除">
+            </form>
+        </div>
     </body>
 </html>

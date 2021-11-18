@@ -28,3 +28,4 @@ Route::post('/items', ['App\Http\Controllers\ItemController', 'create']);
 Route::get('/items/{id}', ['App\Http\Controllers\ItemController', 'show'])->name('item.show');
 Route::get('/items/{id}/edit', ['App\Http\Controllers\ItemController', 'edit']);
 Route::post('/items/{id}', ['App\Http\Controllers\ItemController', 'update']);
+Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])->name('item.destroy');
