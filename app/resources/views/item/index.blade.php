@@ -23,7 +23,7 @@
     <body class="antialiased">
         <div>
             @foreach($items as $item)
-                <p>{{ $item->name }}</p>
+                <a href="{{ url('/items', $item->id) }}">{{ $item->name }}</a>
             @endforeach
         </div>
     </body>

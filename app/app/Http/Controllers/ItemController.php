@@ -23,4 +23,9 @@ class ItemController extends Controller
         Item::create(['name' => $request->name]);
         return redirect('/items');
     }
+
+    public function show($id) {
+        $item = Item::find($id);
+        return view('item.show', compact('item'));
+    }
 }
