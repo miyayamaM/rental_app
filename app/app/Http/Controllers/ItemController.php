@@ -28,4 +28,21 @@ class ItemController extends Controller
         $item = Item::find($id);
         return view('item.show', compact('item'));
     }
+
+    public function edit($id) {
+        $item = Item::find($id);
+        return view('item.edit', compact('item'));
+    }
+
+    public function update(Request $request, $id) {
+        $request->validate(
+            ['name' => ['required', 'string', 'max:255']]
+        );
+
+        Item::find($id)
+                ->update([
+                        'name' => $request->name
+                        ]);
+        return redirect()->route('item.show',['id' => $id]);
+    }
 }
