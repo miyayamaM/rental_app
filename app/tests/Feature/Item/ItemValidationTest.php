@@ -13,7 +13,7 @@ class ItemValidationTest extends TestCase
     use RefreshDatabase;
     
     //物品新規登録(POST)のテスト
-    public function test_blank_name_cannot_be_registered()
+    public function test_物品名は空欄で登録できない()
     {   
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post('/items',[
@@ -26,7 +26,7 @@ class ItemValidationTest extends TestCase
         ]);
     }
 
-    public function test_name_must_be_string()
+    public function test_物品名は文字列以外登録できない()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post('/items',[
@@ -39,7 +39,7 @@ class ItemValidationTest extends TestCase
         ]);
     }
 
-    public function test_name_with_255_chars_can_be_registered()
+    public function test_物品名は最大文字数で登録できる()
     {     
         $user = User::factory()->create();
         $item_name = str_repeat('a', 255);
@@ -54,7 +54,7 @@ class ItemValidationTest extends TestCase
         ]);
     }
 
-    public function test_name_over_255_chars_cannot_be_registered()
+    public function test_物品名は最大文字数を超えて登録できない()
     {     
         $user = User::factory()->create();
         $item_name = str_repeat('a', 256);
@@ -70,7 +70,7 @@ class ItemValidationTest extends TestCase
     }
 
     //物品編集(PUT)のテスト
-    public function test_name_cannot_be_editted_to_blank()
+    public function test_物品名は空欄に編集できない()
     {   
         $user = User::factory()->create();
         $item = Item::factory()->create();
@@ -81,7 +81,7 @@ class ItemValidationTest extends TestCase
     }
 
     //route()ヘルパを使うとintがstringに変換されてしまうので、ここだけパスを直接指定
-    public function test_name_cannot_be_editted_to_number()
+    public function test_物品名は文字列以外に編集できない()
     {   
         $user = User::factory()->create();
         $item = Item::factory()->create();
@@ -92,7 +92,7 @@ class ItemValidationTest extends TestCase
         $this->assertsame(Item::find($item->id)->name, $item->name);
     }
 
-    public function test_name_can_be_editted_to__255_chars()
+    public function test_物品名は最大文字数で編集できる()
     {   
         $user = User::factory()->create();
         $item = Item::factory()->create();
@@ -103,7 +103,7 @@ class ItemValidationTest extends TestCase
         $this->assertsame(Item::find($item->id)->name, $item_name);
     }
 
-    public function test_name_cannot_be_editted_to_more_than_255_chars()
+    public function test_物品名は最大文字数を超えて編集できない()
     {   
         $user = User::factory()->create();
         $item = Item::factory()->create();
