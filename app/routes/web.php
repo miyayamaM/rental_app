@@ -22,10 +22,28 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-Route::get('/items', ['App\Http\Controllers\ItemController', 'index'])->name('item.index');
-Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new']);
-Route::post('/items', ['App\Http\Controllers\ItemController', 'create']);
-Route::get('/items/{id}', ['App\Http\Controllers\ItemController', 'show'])->name('item.show');
-Route::get('/items/{id}/edit', ['App\Http\Controllers\ItemController', 'edit'])->name('item.edit');
-Route::put('/items/{id}', ['App\Http\Controllers\ItemController', 'update'])->name('item.update');
-Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])->name('item.destroy');
+
+Route::get('/items', ['App\Http\Controllers\ItemController', 'index'])
+                ->middleware('auth')
+                ->name('item.index');
+
+Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new'])
+                ->middleware('auth');
+
+Route::post('/items', ['App\Http\Controllers\ItemController', 'create'])
+                ->middleware('auth');
+ 
+Route::get('/items/{id}', ['App\Http\Controllers\ItemController', 'show'])
+                ->middleware('auth')
+                ->name('item.show');
+Route::get('/items/{id}/edit', ['App\Http\Controllers\ItemController', 'edit'])
+                ->middleware('auth')
+                ->name('item.edit');
+
+Route::put('/items/{id}', ['App\Http\Controllers\ItemController', 'update'])
+                ->middleware('auth')
+                ->name('item.update');
+
+Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])
+                ->middleware('auth')
+                ->name('item.destroy');
