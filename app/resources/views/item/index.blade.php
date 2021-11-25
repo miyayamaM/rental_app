@@ -25,7 +25,7 @@
                         <tbody>
                             @foreach($items as $item)
                             <tr>
-                                <td class="border px-7 py-3"><a href="{{ url('/items', $item->id) }}">{{ $item->name }}</a></td>
+                                <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('item.show', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
                                 <td class="border px-7 py-3">貸出可</td>
                                 <td class="border px-7 py-3">予約する</td>
                                 <td class="border px-7 py-3">編集する</td>
