@@ -29,3 +29,16 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  selenium-hub:
+    image: selenium/hub:3.141.59-vanadium
+    ports: 
+        - 4444:4444
+  chrome:
+    image: selenium/node-chrome:3.141.59-vanadium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
