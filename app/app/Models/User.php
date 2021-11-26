@@ -45,6 +45,6 @@ class User extends Authenticatable
     ];
 
     public function items() {
-        return $this->belongsToMany('App\Models\Item', 'rentals');
+        return $this->belongsToMany('App\Models\Item', 'rentals')->withPivot('end_date');;
     }
 }

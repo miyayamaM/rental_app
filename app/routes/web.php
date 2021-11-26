@@ -48,3 +48,7 @@ Route::put('/items/{id}', ['App\Http\Controllers\ItemController', 'update'])
 Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])
                 ->middleware('auth')
                 ->name('item.destroy');
+
+Route::get('/users/{id}/rentals', ['App\Http\Controllers\RentalController', 'index'])
+                ->middleware('auth')
+                ->name('user.rentals');

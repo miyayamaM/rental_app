@@ -26,6 +26,11 @@
                         {{ __('物品登録') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('user.rentals', ['id'=> Auth::id() ])" :active="request()->routeIs('user.rentals')">
+                        {{ __('貸出照会') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
