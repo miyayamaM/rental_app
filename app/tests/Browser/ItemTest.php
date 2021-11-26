@@ -22,7 +22,7 @@ class ItemTest extends DuskTestCase
         }
     }
 
-    public function test_see_item_lists()
+    public function test_物品一覧が表示される()
     {   
         $user = User::factory()->create();
         foreach(['itemA', 'itemB', 'itemC'] as $item_name) {
@@ -39,7 +39,7 @@ class ItemTest extends DuskTestCase
         });
     }
 
-    public function test_register_new_item()
+    public function test_新しい物品を登録する()
     {   
         $user = User::factory()->create();
         foreach(['itemA', 'itemB', 'itemC'] as $item_name) {
@@ -56,7 +56,7 @@ class ItemTest extends DuskTestCase
         });
     }
 
-    public function test_edit_item_name()
+    public function test_物品の名前を編集する()
     {   
         $user = User::factory()->create();
         foreach(['itemA', 'itemB', 'itemC'] as $item_name) {
@@ -76,7 +76,7 @@ class ItemTest extends DuskTestCase
         });
     }
 
-    public function test_delete_item()
+    public function test_物品を削除する()
     {   
         $user = User::factory()->create();
         foreach(['itemA', 'itemB', 'itemC'] as $item_name) {

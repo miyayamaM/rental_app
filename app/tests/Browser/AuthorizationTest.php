@@ -21,7 +21,7 @@ class AuthorizationTest extends DuskTestCase
         }
     }
 
-    public function test_register_new_user()
+    public function test_新規ユーザーを登録()
     {   
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
@@ -35,7 +35,7 @@ class AuthorizationTest extends DuskTestCase
         });
     }
 
-    public function test_login()
+    public function test_ログイン画面からログイン()
     {   
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
@@ -48,7 +48,7 @@ class AuthorizationTest extends DuskTestCase
         });
     }
 
-    public function test_logout()
+    public function test_ログアウトする()
     {   
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
