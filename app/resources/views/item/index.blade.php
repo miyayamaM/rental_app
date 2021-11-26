@@ -20,6 +20,7 @@
                                 <th class="px-7 py-3">貸出状況</th>
                                 <th class="px-7 py-3">予約</th>
                                 <th class="px-7 py-3">編集</th>
+                                <th class="px-7 py-3">削除</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,6 +30,13 @@
                                 <td class="border px-7 py-3">貸出可</td>
                                 <td class="border px-7 py-3">予約する</td>
                                 <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('item.edit', ['id' => $item->id]) }}" dusk="edit_link_{{ $item->id }}">編集する</a></td>
+                                <td class="border px-7 py-3">
+                                    <form method="post" action="{{ route('item.destroy', ['id' => $item->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Are you sure?')" dusk="delete_link_{{ $item->id }}">削除する</button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -75,4 +75,21 @@ class ItemTest extends DuskTestCase
                     ->assertSee('itemA_changed');
         });
     }
+
+    public function test_delete_item()
+    {   
+        $user = User::factory()->create();
+        foreach(['itemA', 'itemB', 'itemC'] as $item_name) {
+            Item::factory()->create(['name' => $item_name]);
+        }
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs(User::find(1))
+                    ->visit('/items')
+                    ->click('@delete_link_1')
+                    ->acceptDialog()
+                    ->assertDontSee('itemA')
+                    ->assertSee('itemB')
+                    ->assertSee('itemC');
+        });
+    }
 }
