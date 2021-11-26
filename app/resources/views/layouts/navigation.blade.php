@@ -17,12 +17,12 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('item.index')" :active="request()->routeIs('item.index')">
+                    <x-nav-link :href="route('item.index')" :active="request()->routeIs('item.index')" dusk="itemlist_on_navigation">
                         {{ __('物品一覧') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('item.new')" :active="request()->routeIs('item.new')">
+                    <x-nav-link :href="route('item.new')" :active="request()->routeIs('item.new')" dusk="item_register_on_navigation">
                         {{ __('物品登録') }}
                     </x-nav-link>
                 </div>
