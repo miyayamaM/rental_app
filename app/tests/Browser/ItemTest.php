@@ -56,6 +56,32 @@ class ItemTest extends DuskTestCase
         });
     }
 
+    public function test_空白を登録するとエラーメッセージを表示()
+    {   
+        $user = User::factory()->create();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visit('/items/new')
+                    ->type('name', '')
+                    ->press('登録する')
+                    ->assertPathIs('/items/new')
+                    ->assertSee('名前は必須です');
+        });
+    }
+
+    public function test_最大文字数を超えて登録するとエラーメッセージを表示()
+    {   
+        $user = User::factory()->create();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs(User::find(1))
+                    ->visit('/items/new')
+                    ->type('name', str_repeat('a', 256))
+                    ->press('登録する')
+                    ->assertPathIs('/items/new')
+                    ->assertSee('名前には255文字以下の文字列を指定してください。');
+        });
+    }
+
     public function test_物品の名前を編集する()
     {   
         $user = User::factory()->create();
@@ -73,6 +99,34 @@ class ItemTest extends DuskTestCase
                     ->assertSee('itemA_changed')
                     ->visit('/items')
                     ->assertSee('itemA_changed');
+        });
+    }
+
+    public function test_空白で編集するとエラーメッセージを表示()
+    {   
+        $user = User::factory()->create();
+        Item::factory()->create();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visit('/items/1/edit')
+                    ->type('name', '')
+                    ->press('編集する')
+                    ->assertPathIs('/items/1/edit')
+                    ->assertSee('名前は必須です');
+        });
+    }
+
+    public function test_最大文字数を超えて編集するとエラーメッセージを表示()
+    {   
+        $user = User::factory()->create();
+        Item::factory()->create();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visit('/items/1/edit')
+                    ->type('name', str_repeat('a', 256))
+                    ->press('編集する')
+                    ->assertPathIs('/items/1/edit')
+                    ->assertSee('名前には255文字以下の文字列を指定してください。');
         });
     }
 
