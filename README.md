@@ -17,4 +17,10 @@ root@XXXXXXXX:/var/www/app# php artisan key:generate --env=testing
 root@XXXXXXXX:/var/www/app# php artisan migrate --env=testing
 root@XXXXXXXX:/var/www/app# php artisan test
 
+#ブラウザテストの実行
+$ docker-compose up -d
+$ cp app/.env.testing app/.env.dusk.testing
+$ docker-compose exec app bash
+root@XXXXXXXX:/var/www/app# php artisan dusk --env=testing
+
 ```
