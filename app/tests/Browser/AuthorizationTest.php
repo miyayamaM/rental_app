@@ -52,7 +52,7 @@ class AuthorizationTest extends DuskTestCase
     {   
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($user)
                     ->visit('/dashboard')
                     ->click('@myname_on_navigation')
                     ->click('@logout')
