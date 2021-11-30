@@ -21,20 +21,6 @@ class AuthorizationTest extends DuskTestCase
         }
     }
 
-    public function test_新規ユーザーを登録()
-    {   
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/register')
-                    ->type('name', "test_user")
-                    ->type('email', "test@example.com")
-                    ->type('password', 'password')
-                    ->type('password_confirmation', 'password')
-                    ->press('登録')
-                    ->assertPathIs('/dashboard')
-                    ->assertSee('test_user');
-        });
-    }
-
     public function test_ログイン画面からログイン()
     {   
         $user = User::factory()->create();
@@ -45,6 +31,36 @@ class AuthorizationTest extends DuskTestCase
                     ->press('#login')
                     ->assertPathIs('/dashboard')
                     ->assertSee('Dashboard');
+        });
+    }
+
+    public function test_存在しないユーザーでログインするとエラーメッセージを表示()
+    {   
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login')
+                    ->type('email', 'test@example.com')
+                    ->type('password', 'password')
+                    ->press('#login')
+                    ->assertSee('該当するユーザーが存在しません');
+        });
+    }
+
+    public function test_連続してログインを失敗するとエラーメッセージを表示()
+    {   
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login')
+                    ->type('email', 'test@example.com')
+                    ->type('password', 'password')
+                    ->press('#login')
+                    ->type('password', 'password')
+                    ->press('#login')
+                    ->type('password', 'password')
+                    ->press('#login')
+                    ->type('password', 'password')
+                    ->press('#login')
+                    ->type('password', 'password')
+                    ->press('#login')
+                    ->assertSee('ログイン試行回数が多すぎます。');
         });
     }
 
