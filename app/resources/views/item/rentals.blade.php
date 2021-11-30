@@ -5,7 +5,7 @@
     
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('借りている物品') }}
+            {{ $user_name. 'が借りている物品' }}
         </h2>
     </x-slot>
 
