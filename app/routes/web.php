@@ -28,7 +28,8 @@ Route::get('/items', ['App\Http\Controllers\ItemController', 'index'])
                 ->name('item.index');
 
 Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new'])
-                ->middleware('auth');
+                ->middleware('auth')
+                ->name('item.new');
 
 Route::post('/items', ['App\Http\Controllers\ItemController', 'create'])
                 ->middleware('auth');
