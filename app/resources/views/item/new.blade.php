@@ -21,6 +21,9 @@
                                 </label>
                             </div>          
                             <div class="md:w-4/5">
+                                @error('name')
+                                    <p class="text-red-500">{{ $message }}</p>
+                                @enderror
                                 <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" name="name">
                             </div>
                         </div>
