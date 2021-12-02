@@ -26,7 +26,7 @@
                         <tbody>
                             @foreach($items as $item)
                             <tr>
-                                <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('item.show', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
+                                <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('item.show', ['id' => $item->id]) }}" dusk="show_link_{{ $item->id }}">{{ $item->name }}</a></td>
                                 @if($item->isRentable())
                                     <td class="border px-7 py-3">
                                         <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-100 bg-green-600 rounded-full">貸出可</span>
