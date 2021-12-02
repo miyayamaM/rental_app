@@ -62,7 +62,7 @@ class ItemTest extends DuskTestCase
                     ->type('name', '')
                     ->press('登録する')
                     ->assertPathIs('/items/new')
-                    ->assertSee('名前は必須です');
+                    ->assertSee('物品名は必須です');
         });
     }
 
@@ -75,7 +75,7 @@ class ItemTest extends DuskTestCase
                     ->type('name', str_repeat('a', 256))
                     ->press('登録する')
                     ->assertPathIs('/items/new')
-                    ->assertSee('名前には255文字以下の文字列を指定してください。');
+                    ->assertSee('物品名には255文字以下の文字列を指定してください。');
         });
     }
 
@@ -107,7 +107,7 @@ class ItemTest extends DuskTestCase
                     ->type('name', '')
                     ->press('編集する')
                     ->assertPathIs('/items/1/edit')
-                    ->assertSee('名前は必須です');
+                    ->assertSee('物品名は必須です');
         });
     }
 
@@ -121,7 +121,7 @@ class ItemTest extends DuskTestCase
                     ->type('name', str_repeat('a', 256))
                     ->press('編集する')
                     ->assertPathIs('/items/1/edit')
-                    ->assertSee('名前には255文字以下の文字列を指定してください。');
+                    ->assertSee('物品名には255文字以下の文字列を指定してください。');
         });
     }
 

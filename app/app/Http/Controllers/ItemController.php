@@ -18,7 +18,9 @@ class ItemController extends Controller
 
     public function create(Request $request) {
         $request->validate(
-            ['name' => ['required', 'string', 'max:255']]
+            ['name' => ['required', 'string', 'max:255']],
+            [],
+            ['name' => '物品名']
         );
         Item::create(['name' => $request->name]);
         return redirect('/items');
@@ -36,7 +38,9 @@ class ItemController extends Controller
 
     public function update(Request $request, $id) {
         $request->validate(
-            ['name' => ['required', 'string', 'max:255']]
+            ['name' => ['required', 'string', 'max:255']],
+            [],
+            ['name' => '物品名']
         );
 
         Item::find($id)

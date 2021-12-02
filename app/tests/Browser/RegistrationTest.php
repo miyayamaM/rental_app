@@ -44,7 +44,7 @@ class RegistrationTest extends DuskTestCase
                     ->type('password', 'password')
                     ->type('password_confirmation', 'password')
                     ->press('登録')
-                    ->assertSee('名前には255文字以下の文字列を指定してください。');
+                    ->assertSee('ユーザー名には255文字以下の文字列を指定してください。');
         });
     }
 
