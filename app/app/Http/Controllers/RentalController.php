@@ -33,4 +33,9 @@ class RentalController extends Controller
         ]);
         return redirect('/items');
     }
+
+    public function destroy($id) {
+        Rental::find($id)->delete();
+        return redirect()->route('user.rentals', ['id' => Auth::id()]);;
+    }
 }

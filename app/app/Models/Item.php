@@ -12,7 +12,7 @@ class Item extends Model
     protected $fillable = ['name'];
 
     public function users() {
-        return $this->belongsToMany('App\Models\User', 'rentals');
+        return $this->belongsToMany('App\Models\User', 'rentals')->whereNull('rentals.deleted_at');
     }
 
     public function isRentable() {

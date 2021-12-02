@@ -56,3 +56,7 @@ Route::get('/users/{id}/rentals', ['App\Http\Controllers\RentalController', 'ind
 Route::post('/rentals', ['App\Http\Controllers\RentalController', 'create'])
                 ->middleware('auth')
                 ->name('rental.create');
+
+Route::delete('/rentals/{id}', ['App\Http\Controllers\RentalController', 'destroy'])
+                ->middleware('auth')
+                ->name('rental.destroy');

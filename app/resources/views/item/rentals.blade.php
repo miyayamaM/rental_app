@@ -26,7 +26,13 @@
                             <tr>
                                 <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('item.show', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
                                 <td class="border px-7 py-3">{{ $item->pivot->end_date }}</td>
-                                <td class="border px-7 py-3">返却する</td>
+                                <td class="border px-7 py-3">
+                                    <form method="post" action="{{ route('rental.destroy', ['id' => $item->pivot->id]) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('返却しますか?')" dusk="return_item_{{ $item->pivot->id }}">返却する</button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
