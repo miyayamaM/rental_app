@@ -52,3 +52,7 @@ Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])
 Route::get('/users/{id}/rentals', ['App\Http\Controllers\RentalController', 'index'])
                 ->middleware('auth')
                 ->name('user.rentals');
+
+Route::post('/rentals', ['App\Http\Controllers\RentalController', 'create'])
+                ->middleware('auth')
+                ->name('rental.create');

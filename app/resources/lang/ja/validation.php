@@ -100,8 +100,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'end_date' => [
+            'after' => ':attributeには今日以降の日付を指定してください。',
         ],
     ],
 
@@ -120,6 +120,7 @@ return [
         'name' => '名前',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
+        'end_date' => '返却予定日',
     ],
 
 ];

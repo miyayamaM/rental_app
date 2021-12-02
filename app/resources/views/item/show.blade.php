@@ -17,14 +17,18 @@
                         @if($item->isRentable())
                             <div class="col-span-3">状況： 貸出可</div>
                             <form method="POST" action="/rentals">
+                                @csrf
                                 <div class="md:flex md:items-center mb-6">
-                                    @csrf
+                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
                                     <div class="col-span-3">
-                                        <label class=" block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
+                                        <label class=" block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-1" for="inline-full-name">
                                             返却予定日
                                         </label>
                                     </div>          
                                     <div class="col-span-3">
+                                        @error('end_date')
+                                            <p class="text-red-500">{{ $message }}</p>
+                                        @enderror
                                         <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="date" name="end_date">
                                     </div>
                                 </div>

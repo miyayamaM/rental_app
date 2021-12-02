@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Rental;
+use Illuminate\Support\Facades\Auth;
+use App\Rules\isRentable;
 
 class RentalController extends Controller
 {
@@ -13,5 +16,21 @@ class RentalController extends Controller
         $rental_items = $user->items;
         
         return view('item.rentals', compact('rental_items', 'user_name'));
+    }
+
+    public function create(Request $request) {
+        $request->validate(
+            [   
+                'item_id' => ['required', 'int', 'exists:items,id', new isRentable],
+                'end_date' => ['required', 'date', 'after:today']
+            ]
+        );
+
+        Rental::create([
+            "user_id" => Auth::id(),
+            "item_id" => $request->item_id,
+            "end_date" => $request->end_date,
+        ]);
+        return redirect('/items');
     }
 }
