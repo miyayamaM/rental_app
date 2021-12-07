@@ -15,7 +15,7 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            'name' => "itemA",
+            'name' => $this->faker->word(),
         ];
     }
 }
