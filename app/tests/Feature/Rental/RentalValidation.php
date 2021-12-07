@@ -40,12 +40,12 @@ class RentalTest extends TestCase
     {   
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-                         ->post('/rentals', ['item_id' => $item->id, 'end_date' => Carbon::tomorrow()]);
+                         ->post('/rentals', ['item_id' => $item->id, 'end_date' => Carbon::today()]);
 
         $this->assertDatabaseHas('rentals',[
             'user_id' => $this->user->id,
             'item_id' => $item->id, 
-            'end_date' => Carbon::tomorrow()
+            'end_date' => Carbon::today()
         ]);
         $response->assertRedirect(route('item.index'));
     }

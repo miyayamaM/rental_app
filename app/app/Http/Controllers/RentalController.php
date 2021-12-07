@@ -22,7 +22,7 @@ class RentalController extends Controller
         $request->validate(
             [   
                 'item_id' => ['required', 'int', 'exists:items,id', new isRentable],
-                'end_date' => ['required', 'date', 'after:today']
+                'end_date' => ['required', 'date', 'after_or_equal:today']
             ]
         );
 

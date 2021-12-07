@@ -101,7 +101,7 @@ return [
 
     'custom' => [
         'end_date' => [
-            'after' => ':attributeには今日以降の日付を指定してください。',
+            'after_or_equal' => ':attributeには今日かそれ以降の日付を指定してください。',
         ],
     ],
 

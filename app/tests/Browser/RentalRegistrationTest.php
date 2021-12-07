@@ -31,14 +31,14 @@ class RentalRegistrationTest extends DuskTestCase
     {   
         //FIXME: ブラウザテスト側のend_dateフォームの形式がmm/dd/yyyyになっている。
         //ローカルではyyyy/mm/ddなので統一する必要がある
-        $tomorrow = Carbon::tomorrow();
+        $return_date = Carbon::today();
         $item = Item::factory()->create(["name" => "rentable_item"]);
-        $this->browse(function (Browser $browser) use ($item, $tomorrow) {
+        $this->browse(function (Browser $browser) use ($item, $return_date) {
             $browser->loginAs($this->user)
                     ->visit('/items')
                     ->click('@show_link_'. $item->id)
                     ->assertSee('貸出可')
-                    ->keys('#end_date', $tomorrow->month, $tomorrow->day, $tomorrow->year)
+                    ->keys('#end_date', $return_date->month, $return_date->day, $return_date->year)
                     ->press('貸出する')
                     ->assertPathIs('/items')
                     ->assertSee('貸出中');
@@ -63,17 +63,17 @@ class RentalRegistrationTest extends DuskTestCase
     {   
         //FIXME: ブラウザテスト側のend_dateフォームの形式がmm/dd/yyyyになっている。
         //ローカルではyyyy/mm/ddなので統一する必要がある
-        $yesterday = Carbon::yesterday();
+        $return_date = Carbon::yesterday();
         $item = Item::factory()->create(["name" => "rentable_item"]);
-        $this->browse(function (Browser $browser) use ($item, $yesterday) {
+        $this->browse(function (Browser $browser) use ($item, $return_date) {
             $browser->loginAs($this->user)
             ->visit('/items')
             ->click('@show_link_'. $item->id)
             ->assertSee('貸出可')
-            ->keys('#end_date', $yesterday->month, $yesterday->day, $yesterday->year)
+            ->keys('#end_date', $return_date->month, $return_date->day, $return_date->year)
             ->press('貸出する')
             ->assertRouteIs('item.show', ['id' => $item->id ])
-            ->assertSee('返却予定日には今日以降の日付を指定してください。');
+            ->assertSee('返却予定日には今日かそれ以降の日付を指定してください。');
         });
     }
 }
