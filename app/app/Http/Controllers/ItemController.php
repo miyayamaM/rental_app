@@ -37,22 +37,28 @@ class ItemController extends Controller
     }
 
     public function update(Request $request, $id) {
+        $item = Item::find($id);
+        if(!$item->isRentable()) {
+            abort(403);
+        };
         $request->validate(
             ['name' => ['required', 'string', 'max:255']],
             [],
             ['name' => '物品名']
         );
 
-        Item::find($id)
-                ->update([
+        $item->update([
                         'name' => $request->name
-                        ]);
+                    ]);
         return redirect()->route('item.show',['id' => $id]);
     }
 
     public function destroy($id) {
-        Item::find($id)->delete();
+        $item = Item::find($id);
+        if(!$item->isRentable()) {
+            abort(403);
+        };
+        $item->delete();
         return redirect('/items');
     }
-
 }
