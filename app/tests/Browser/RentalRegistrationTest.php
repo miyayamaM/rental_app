@@ -38,7 +38,7 @@ class RentalRegistrationTest extends DuskTestCase
                     ->visit('/items')
                     ->click('@show_link_'. $item->id)
                     ->assertSee('貸出可')
-                    ->keys('#end_date', $tomorrow->month, $tomorrow->day, '{tab}', $tomorrow->year)
+                    ->keys('#end_date', $tomorrow->month, $tomorrow->day, $tomorrow->year)
                     ->press('貸出する')
                     ->assertPathIs('/items')
                     ->assertSee('貸出中');
@@ -70,7 +70,7 @@ class RentalRegistrationTest extends DuskTestCase
             ->visit('/items')
             ->click('@show_link_'. $item->id)
             ->assertSee('貸出可')
-            ->keys('#end_date', $yesterday->month, $yesterday->day, '{tab}', $yesterday->year)
+            ->keys('#end_date', $yesterday->month, $yesterday->day, $yesterday->year)
             ->press('貸出する')
             ->assertRouteIs('item.show', ['id' => $item->id ])
             ->assertSee('返却予定日には今日以降の日付を指定してください。');
