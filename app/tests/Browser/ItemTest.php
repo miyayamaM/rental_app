@@ -82,18 +82,18 @@ class ItemTest extends DuskTestCase
     public function test_物品の名前を編集する()
     {   
         $user = User::factory()->create();
-        Item::factory()->create();
-        $this->browse(function (Browser $browser) use ($user) {
+        $item = Item::factory()->create();
+        $this->browse(function (Browser $browser) use ($user, $item) {
             $browser->loginAs($user)
                     ->visit('/items')
                     ->click('@edit_link_1')
                     ->assertPathIs('/items/1/edit')
-                    ->assertSee('itemA')
-                    ->type('name', 'itemA_changed')
+                    ->assertSee($item->name)
+                    ->type('name', 'changed_name')
                     ->press('編集する')
-                    ->assertSee('itemA_changed')
+                    ->assertSee('changed_name')
                     ->visit('/items')
-                    ->assertSee('itemA_changed');
+                    ->assertSee('changed_name');
         });
     }
 
