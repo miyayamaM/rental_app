@@ -35,6 +35,9 @@ class ItemController extends Controller
 
     public function edit($id) {
         $item = Item::find($id);
+        if(!$item->isRentable()) {
+            return redirect('/items');
+        };
         return view('item.edit', compact('item'));
     }
 
