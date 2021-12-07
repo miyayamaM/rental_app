@@ -61,4 +61,18 @@ class RentalTest extends TestCase
         $this->assertSoftDeleted('rentals', ['id' => $rental->id]);
         $response->assertRedirect(route('user.rentals', ['id' => $this->user->id]));
     }
+
+    public function test_他人の物品の貸出は削除できない()
+    {   
+        $rental = Rental::where('user_id', $this->another_user->id)->first();
+        $response = $this->actingAs($this->user)
+                        ->delete(route('rental.destroy', ['id' => $rental->id]));
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('rentals', [
+            'id' => $rental->id,
+            'deleted_at' => null,
+            ]
+        );
+    }
 }
