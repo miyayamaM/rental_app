@@ -39,7 +39,7 @@ class RentalTest extends DuskTestCase
                     ->click('@rentallist_on_navigation')
                     ->assertRouteIs('user.rentals', ['id' => $this->user->id])
                     ->assertSee('あなたが借りている物品')
-                    ->assertSee('itemA')
+                    ->assertSee($this->user->items->first()->name)
                     ->assertSee('2021-11-01');
         });
     }
@@ -91,6 +91,20 @@ class RentalTest extends DuskTestCase
                     ->assertSee('状況： 貸出中')
                     ->assertSee('貸出者： '. $this->user->name)
                     ->assertDontSee('返却予定日： 2020-11-01');
+        });
+    }
+
+    public function test_物品の返却をする()
+    {   
+        $item = $this->user->items->first();
+        $this->browse(function (Browser $browser) use ($item) {
+            $browser->loginAs($this->user)
+                    ->visit('/dashboard')
+                    ->click('@rentallist_on_navigation')
+                    ->assertSee($item->name)
+                    ->click('@return_item_'. $item->pivot->id)
+                    ->acceptDialog()
+                    ->assertDontSee($item->name);
         });
     }
 

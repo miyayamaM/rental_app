@@ -52,5 +52,13 @@ class RentalTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_物品の返却ができる()
+    {   
+        $rental = Rental::where('user_id', $this->user->id)->first();
+        $response = $this->actingAs($this->user)
+                        ->delete(route('rental.destroy', ['id' => $rental->id]));
 
+        $this->assertSoftDeleted('rentals', ['id' => $rental->id]);
+        $response->assertRedirect(route('user.rentals', ['id' => $this->user->id]));
+    }
 }
