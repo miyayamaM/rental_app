@@ -29,12 +29,12 @@ class ItemController extends Controller
     }
 
     public function show($id) {
-        $item = Item::find($id);
+        $item = Item::findOrFail($id);
         return view('item.show', compact('item'));
     }
 
     public function edit($id) {
-        $item = Item::find($id);
+        $item = Item::findOrFail($id);
         if(!$item->isRentable()) {
             return redirect('/items');
         };
@@ -53,7 +53,7 @@ class ItemController extends Controller
 
         Validator::make($merged_params, $rules, [], ['name' => '物品名'])->validate();
 
-        Item::find($id)->update([
+        Item::findOrFail($id)->update([
                         'name' => $request->name
                     ]);
         return redirect()->route('item.show',['id' => $id]);
@@ -66,7 +66,7 @@ class ItemController extends Controller
          
         Validator::make(['id' => $id], $rules)->validate();
 
-        Item::find($id)->delete();
+        Item::findOrFail($id)->delete();
         return redirect('/items');
     }
 }
