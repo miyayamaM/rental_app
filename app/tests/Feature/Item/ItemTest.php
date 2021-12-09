@@ -87,7 +87,8 @@ class ItemTest extends TestCase
     public function test_存在しない物品詳細画面へのアクセスは404を返す()
     {   
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('item.show', ['id' => Item::max('id') + 1]));
+        $non_existent_id = Item::max('id') + 1;
+        $response = $this->actingAs($user)->get(route('item.show', ['id' => $non_existent_id]));
 
         $response->assertStatus(404);
     }
