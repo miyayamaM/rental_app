@@ -84,6 +84,14 @@ class ItemTest extends TestCase
         $response->assertRedirect('/login');
     }
 
+    public function test_存在しない物品詳細画面へのアクセスは404を返す()
+    {   
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('item.show', ['id' => Item::max('id') + 1]));
+
+        $response->assertStatus(404);
+    }
+
     public function test_edit_screen_can_be_rendered()
     {      
         $user = User::factory()->create();
@@ -99,6 +107,14 @@ class ItemTest extends TestCase
         $response = $this->get(route('item.edit', ['id' => $item->id]));
 
         $response->assertRedirect('/login');
+    }
+
+    public function test_存在しない物品編集画面へのアクセスは404を返す()
+    {   
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('item.edit', ['id' => Item::max('id') + 1]));
+
+        $response->assertStatus(404);
     }
 
     public function test_name_can_be_changed()
@@ -119,6 +135,14 @@ class ItemTest extends TestCase
         $this->assertNotSame(Item::find($item->id)->name, 'updated name');
         $response->assertRedirect('/login');
     }   
+
+    public function test_存在しない物品の編集は404を返す()
+    {   
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->put(route('item.update', ['id' => Item::max('id') + 1, 'name' => 'updated name']));
+
+        $response->assertStatus(404);
+    }
     
     public function test_item_can_be_deleted()
     {   
@@ -137,5 +161,13 @@ class ItemTest extends TestCase
         
         $this->assertDatabaseHas('items', ['id' => $item->id]);
         $response->assertRedirect('/login');
+    }
+
+    public function test_存在しない物品の削除は404を返す()
+    {   
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->delete(route('item.destroy', ['id' => Item::max('id') + 1]));
+
+        $response->assertStatus(404);
     }
 }
