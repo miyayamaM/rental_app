@@ -26,7 +26,7 @@ class isEditable implements Rule
      */
     public function passes($attribute, $value)
     {   
-        return Rental::whereNull('deleted_at')->where('item_id', '=', $value)->get()->isEmpty();
+        return Rental::whereNull('deleted_at')->where('item_id', $value)->doesntExist();
     }
 
     /**
