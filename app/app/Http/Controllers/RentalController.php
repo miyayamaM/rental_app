@@ -13,7 +13,7 @@ class RentalController extends Controller
     public function index(Request $request, $id) {
         $user = User::findOrFail($id);
         $user_name = Auth::id() == $id ? 'あなた': $user->name. 'さん';
-        $rental_items = $user->items;
+        $rental_items = $user->items()->get();
         
         return view('item.rentals', compact('rental_items', 'user_name'));
     }
