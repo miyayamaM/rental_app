@@ -90,7 +90,6 @@ class RentalTest extends TestCase
         $this->assertDatabaseHas('rentals', [
             'id' => $rental->id,
             'deleted_at' => null,
-            ]
-        );
+        ]);
     }
 }
