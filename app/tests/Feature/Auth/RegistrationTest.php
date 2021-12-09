@@ -32,7 +32,7 @@ class RegistrationTest extends TestCase
     }
 
     public function test_duplicated_email_can_not_be_registered()
-    {   
+    {
         $user = User::factory()->create();
         $response = $this->post('/register', [
             'name' => 'Test User',

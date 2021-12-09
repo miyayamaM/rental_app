@@ -22,7 +22,7 @@ class UserRegistrationTest extends DuskTestCase
     }
 
     public function test_新規ユーザーを登録()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                     ->type('name', "test_user")
@@ -36,7 +36,7 @@ class UserRegistrationTest extends DuskTestCase
     }
 
     public function test_名前を最大文字数を超えて登録するとエラーメッセージを表示()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                     ->type('name', str_repeat('a', 256))
@@ -49,11 +49,11 @@ class UserRegistrationTest extends DuskTestCase
     }
 
     public function test_メールアドレスを最大文字数を超えて登録するとエラーメッセージを表示()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                     ->type('name', 'test_user')
-                    ->type('email', str_repeat('a', 256). '@example.com')
+                    ->type('email', str_repeat('a', 256) . '@example.com')
                     ->type('password', 'password')
                     ->type('password_confirmation', 'password')
                     ->press('登録')
@@ -62,7 +62,7 @@ class UserRegistrationTest extends DuskTestCase
     }
 
     public function test_既にあるメールアドレスを登録するとエラーメッセージを表示()
-    {   
+    {
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/register')
@@ -76,7 +76,7 @@ class UserRegistrationTest extends DuskTestCase
     }
 
     public function test_パスワードが確認用と異なるとエラーメッセージを表示()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                     ->type('name', 'another_user')
@@ -89,7 +89,7 @@ class UserRegistrationTest extends DuskTestCase
     }
 
     public function test_パスワードが短すぎるとエラーメッセージを表示()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                     ->type('name', 'another_user')

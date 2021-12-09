@@ -22,7 +22,7 @@ class AuthorizationTest extends DuskTestCase
     }
 
     public function test_ログイン画面からログイン()
-    {   
+    {
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/login')
@@ -35,7 +35,7 @@ class AuthorizationTest extends DuskTestCase
     }
 
     public function test_存在しないユーザーでログインするとエラーメッセージを表示()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                     ->type('email', 'test@example.com')
@@ -46,7 +46,7 @@ class AuthorizationTest extends DuskTestCase
     }
 
     public function test_連続してログインを失敗するとエラーメッセージを表示()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                     ->type('email', 'test@example.com')
@@ -65,7 +65,7 @@ class AuthorizationTest extends DuskTestCase
     }
 
     public function test_ログアウトする()
-    {   
+    {
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)

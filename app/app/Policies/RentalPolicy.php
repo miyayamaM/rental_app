@@ -10,7 +10,8 @@ class RentalPolicy
 {
     use HandlesAuthorization;
 
-    public function destroy(User $user, Rental $rental) {
+    public function destroy(User $user, Rental $rental)
+    {
         return $user->id === $rental->user_id;
     }
 }

@@ -22,7 +22,9 @@ use App\Models\Rental;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -54,7 +56,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function items() {
-        return $this->belongsToMany('App\Models\Item', 'rentals')->whereNull('rentals.deleted_at')->withPivot('end_date', 'id');;
+    public function items()
+    {
+        return $this->belongsToMany('App\Models\Item', 'rentals')->whereNull('rentals.deleted_at')->withPivot('end_date', 'id');
     }
 }

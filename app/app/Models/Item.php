@@ -18,15 +18,18 @@ class Item extends Model
 
     protected $fillable = ['name'];
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany('App\Models\User', 'rentals')->whereNull('rentals.deleted_at');
     }
 
-    public function isRentable() {
+    public function isRentable()
+    {
         return $this->users->isEmpty();
     }
 
-    public function rental_end_date() {
-        return $this->isRentable() ? null: Rental::where('item_id', $this->id)->select('end_date')->first()->end_date;
+    public function rentalEndDate()
+    {
+        return $this->isRentable() ? null : Rental::where('item_id', $this->id)->select('end_date')->first()->end_date;
     }
 }

@@ -32,7 +32,7 @@ class RentalTest extends DuskTestCase
     }
 
     public function test_貸出照会が表示される()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit('/dashboard')
@@ -45,7 +45,7 @@ class RentalTest extends DuskTestCase
     }
 
     public function test_物品の貸出状況が表示される()
-    {   
+    {
         Item::factory()->create();
 
         $this->browse(function (Browser $browser) {
@@ -59,7 +59,7 @@ class RentalTest extends DuskTestCase
     }
 
     public function test_貸出中の物品は編集・削除ボタンが表示されない()
-    {   
+    {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit('/dashboard')
@@ -77,7 +77,7 @@ class RentalTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($item) {
             $browser->loginAs($this->user)
                     ->visit('/items')
-                    ->click('@show_link_'. $item->id)
+                    ->click('@show_link_' . $item->id)
                     ->assertSee('貸出可');
         });
     }
@@ -89,23 +89,22 @@ class RentalTest extends DuskTestCase
                     ->visit('/items')
                     ->click('@show_link_1')
                     ->assertSee('状況： 貸出中')
-                    ->assertSee('貸出者： '. $this->user->name)
+                    ->assertSee('貸出者： ' . $this->user->name)
                     ->assertDontSee('返却予定日： 2020-11-01');
         });
     }
 
     public function test_物品の返却をする()
-    {   
+    {
         $item = $this->user->items->first();
         $this->browse(function (Browser $browser) use ($item) {
             $browser->loginAs($this->user)
                     ->visit('/dashboard')
                     ->click('@rentallist_on_navigation')
                     ->assertSee($item->name)
-                    ->click('@return_item_'. $item->pivot->id)
+                    ->click('@return_item_' . $item->pivot->id)
                     ->acceptDialog()
                     ->assertDontSee($item->name);
         });
     }
-
 }
