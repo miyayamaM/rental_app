@@ -52,6 +52,15 @@ class RentalTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_存在しないユーザーの貸出照会は404を返す()
+    {   
+        $non_exsitent_user_id = User::all()->max('id') + 1;
+        $response = $this->actingAs($this->user)
+                        ->get(route('user.rentals', ['id' => $non_exsitent_user_id]));
+
+        $response->assertStatus(404);
+    }
+
     public function test_物品の返却ができる()
     {   
         $rental = Rental::where('user_id', $this->user->id)->first();
@@ -60,6 +69,15 @@ class RentalTest extends TestCase
 
         $this->assertSoftDeleted('rentals', ['id' => $rental->id]);
         $response->assertRedirect(route('user.rentals', ['id' => $this->user->id]));
+    }
+
+    public function test_存在しない貸出IDに対するリクエストは404を返す()
+    {   
+        $non_exsitent_rental_id = Rental::all()->max('id') + 1;
+        $response = $this->actingAs($this->user)
+                        ->delete(route('rental.destroy', ['id' => $non_exsitent_rental_id]));
+
+        $response->assertStatus(404);
     }
 
     public function test_他人の物品の貸出は削除できない()
