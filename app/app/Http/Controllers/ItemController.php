@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Rules\isEditable;
+use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
 {
@@ -33,26 +35,38 @@ class ItemController extends Controller
 
     public function edit($id) {
         $item = Item::find($id);
+        if(!$item->isRentable()) {
+            return redirect('/items');
+        };
         return view('item.edit', compact('item'));
     }
 
     public function update(Request $request, $id) {
-        $request->validate(
-            ['name' => ['required', 'string', 'max:255']],
-            [],
-            ['name' => '物品名']
-        );
+        $merged_params = array_merge($request->all(), [
+            'id' => $id,
+        ]);
 
-        Item::find($id)
-                ->update([
+        $rules =  [
+            'id' => [new isEditable],
+            'name' => ['required', 'string', 'max:255']
+        ];
+
+        Validator::make($merged_params, $rules, [], ['name' => '物品名'])->validate();
+
+        Item::find($id)->update([
                         'name' => $request->name
-                        ]);
+                    ]);
         return redirect()->route('item.show',['id' => $id]);
     }
 
     public function destroy($id) {
+        $rules = [
+            'id' => [ new isEditable ]
+        ];
+         
+        Validator::make(['id' => $id], $rules)->validate();
+
         Item::find($id)->delete();
         return redirect('/items');
     }
-
 }

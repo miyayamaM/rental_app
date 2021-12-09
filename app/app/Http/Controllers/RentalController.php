@@ -11,7 +11,7 @@ use App\Rules\isRentable;
 class RentalController extends Controller
 {
     public function index(Request $request, $id) {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user_name = Auth::id() == $id ? 'あなた': $user->name. 'さん';
         $rental_items = $user->items;
         
@@ -35,7 +35,9 @@ class RentalController extends Controller
     }
 
     public function destroy($id) {
-        Rental::find($id)->delete();
+        $rental = Rental::findOrFail($id);
+        $this->authorize('destroy', $rental);
+        $rental->delete();
         return redirect()->route('user.rentals', ['id' => Auth::id()]);;
     }
 }
