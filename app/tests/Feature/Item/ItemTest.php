@@ -112,7 +112,8 @@ class ItemTest extends TestCase
     public function test_存在しない物品編集画面へのアクセスは404を返す()
     {   
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('item.edit', ['id' => Item::max('id') + 1]));
+        $non_existent_id = Item::max('id') + 1;
+        $response = $this->actingAs($user)->get(route('item.edit', ['id' => $non_existent_id]));
 
         $response->assertStatus(404);
     }
@@ -139,7 +140,8 @@ class ItemTest extends TestCase
     public function test_存在しない物品の編集は404を返す()
     {   
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->put(route('item.update', ['id' => Item::max('id') + 1, 'name' => 'updated name']));
+        $non_existent_id = Item::max('id') + 1;
+        $response = $this->actingAs($user)->put(route('item.update', ['id' => $non_existent_id, 'name' => 'updated name']));
 
         $response->assertStatus(404);
     }
@@ -166,7 +168,8 @@ class ItemTest extends TestCase
     public function test_存在しない物品の削除は404を返す()
     {   
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->delete(route('item.destroy', ['id' => Item::max('id') + 1]));
+        $non_existent_id = Item::max('id') + 1;
+        $response = $this->actingAs($user)->delete(route('item.destroy', ['id' => $non_existent_id]));
 
         $response->assertStatus(404);
     }
