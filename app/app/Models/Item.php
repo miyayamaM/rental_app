@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Item
+ *
+ * @property integer $id
+ * @property string $name
+ * @property \Illuminate\Database\Eloquent\Collection $users
+ */
 class Item extends Model
 {
     use HasFactory;
@@ -20,6 +27,6 @@ class Item extends Model
     }
 
     public function rental_end_date() {
-        return $this->isRentable() ? null: Rental::where('item_id', $this->id)->get()->first()->end_date;
+        return $this->isRentable() ? null: Rental::where('item_id', $this->id)->select('end_date')->first()->end_date;
     }
 }
