@@ -23,9 +23,9 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_物品一覧が表示される()
-    {   
+    {
         $user = User::factory()->create();
-        foreach(['itemA', 'itemB', 'itemC'] as $item_name) {
+        foreach (['itemA', 'itemB', 'itemC'] as $item_name) {
             Item::factory()->create(['name' => $item_name]);
         }
         $this->browse(function (Browser $browser) use ($user) {
@@ -40,7 +40,7 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_新しい物品を登録する()
-    {   
+    {
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -54,7 +54,7 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_空白を登録するとエラーメッセージを表示()
-    {   
+    {
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -67,7 +67,7 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_最大文字数を超えて登録するとエラーメッセージを表示()
-    {   
+    {
         $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -80,7 +80,7 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_物品の名前を編集する()
-    {   
+    {
         $user = User::factory()->create();
         $item = Item::factory()->create();
         $this->browse(function (Browser $browser) use ($user, $item) {
@@ -98,7 +98,7 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_空白で編集するとエラーメッセージを表示()
-    {   
+    {
         $user = User::factory()->create();
         Item::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
@@ -112,7 +112,7 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_最大文字数を超えて編集するとエラーメッセージを表示()
-    {   
+    {
         $user = User::factory()->create();
         Item::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
@@ -126,9 +126,9 @@ class ItemTest extends DuskTestCase
     }
 
     public function test_物品を削除する()
-    {   
+    {
         $user = User::factory()->create();
-        foreach(['itemA', 'itemB', 'itemC'] as $item_name) {
+        foreach (['itemA', 'itemB', 'itemC'] as $item_name) {
             Item::factory()->create(['name' => $item_name]);
         }
         $this->browse(function (Browser $browser) use ($user) {

@@ -15,7 +15,7 @@ class ItemsOnLoanTest extends TestCase
     protected $user;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
 
         $this->user = User::factory()
@@ -26,33 +26,33 @@ class ItemsOnLoanTest extends TestCase
             ->create();
     }
 
-   public function test_貸出中の物品編集画面にはアクセスできない() 
-   {
-        $item = $this->user->items->first();
+    public function test_貸出中の物品編集画面にはアクセスできない()
+    {
+         $item = $this->user->items->first();
 
-        $response = $this->actingAs($this->user)->get(route('item.edit', ['id' => $item->id]));
+         $response = $this->actingAs($this->user)->get(route('item.edit', ['id' => $item->id]));
 
-        $response->assertStatus(302);
-        $response->assertRedirect('/items');
-   }
+         $response->assertStatus(302);
+         $response->assertRedirect('/items');
+    }
 
-   public function test_貸出中の物品名は変更できない() 
-   {
-        $item = $this->user->items->first();
+    public function test_貸出中の物品名は変更できない()
+    {
+         $item = $this->user->items->first();
 
-        $response = $this->actingAs($this->user)->put(route('item.update', ['id' => $item->id, 'name' => 'updated name']));
+         $response = $this->actingAs($this->user)->put(route('item.update', ['id' => $item->id, 'name' => 'updated name']));
 
-        $response->assertStatus(302);
-        $this->assertNotSame(Item::find($item->id)->name, 'updated name');
-   }
+         $response->assertStatus(302);
+         $this->assertNotSame(Item::find($item->id)->name, 'updated name');
+    }
 
-   public function test_貸出中の物品は削除できない() 
-   {
-        $item = $this->user->items->first();
+    public function test_貸出中の物品は削除できない()
+    {
+         $item = $this->user->items->first();
 
-        $response = $this->actingAs($this->user)->delete(route('item.destroy', ['id' => $item->id]));
+         $response = $this->actingAs($this->user)->delete(route('item.destroy', ['id' => $item->id]));
 
-        $response->assertStatus(302);
-        $this->assertDatabaseHas('items', ['id' => $item->id]);
-   }
+         $response->assertStatus(302);
+         $this->assertDatabaseHas('items', ['id' => $item->id]);
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\Rental;
 
-class isRentable implements Rule
+class IsRentable implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,8 +25,8 @@ class isRentable implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    {   
-        return Rental::whereNull('deleted_at')->where('item_id', '=', $value)->get()->isEmpty();
+    {
+        return Rental::whereNull('deleted_at')->where('item_id', $value)->doesntExist();
     }
 
     /**

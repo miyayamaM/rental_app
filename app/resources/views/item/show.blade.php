@@ -44,7 +44,7 @@
                         @else
                             <div class="col-span-3">状況： 貸出中</div>
                             <div class="col-span-3">貸出者： {{ $item->users->first()->name }}</div>
-                            <div class="col-span-3">返却予定日： {{ $item->rental_end_date() }}</div>
+                            <div class="col-span-3">返却予定日： {{ $item->rentalEndDate() }}</div>
                         @endif 
                     </div>
                 </div>

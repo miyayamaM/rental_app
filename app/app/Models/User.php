@@ -10,9 +10,21 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Item;
 use App\Models\Rental;
 
+/**
+ * App\Models\User
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
+ * @property \Illuminate\Database\Eloquent\Collection $items
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -44,7 +56,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function items() {
-        return $this->belongsToMany('App\Models\Item', 'rentals')->whereNull('rentals.deleted_at')->withPivot('end_date', 'id');;
+    public function items()
+    {
+        return $this->belongsToMany('App\Models\Item', 'rentals')->whereNull('rentals.deleted_at')->withPivot('end_date', 'id');
     }
 }

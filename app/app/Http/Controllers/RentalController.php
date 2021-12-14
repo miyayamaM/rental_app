@@ -6,22 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Rental;
 use Illuminate\Support\Facades\Auth;
-use App\Rules\isRentable;
+use App\Rules\IsRentable;
 
 class RentalController extends Controller
 {
-    public function index(Request $request, $id) {
+    public function index(Request $request, $id)
+    {
         $user = User::findOrFail($id);
-        $user_name = Auth::id() == $id ? 'あなた': $user->name. 'さん';
-        $rental_items = $user->items;
-        
+        $user_name = Auth::id() == $id ? 'あなた' : $user->name . 'さん';
+        $rental_items = $user->items()->get();
+
         return view('item.rentals', compact('rental_items', 'user_name'));
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         $request->validate(
-            [   
-                'item_id' => ['required', 'int', 'exists:items,id', new isRentable],
+            [
+                'item_id' => ['required', 'int', 'exists:items,id', new IsRentable()],
                 'end_date' => ['required', 'date', 'after_or_equal:today']
             ]
         );
@@ -34,10 +36,12 @@ class RentalController extends Controller
         return redirect('/items');
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $rental = Rental::findOrFail($id);
         $this->authorize('destroy', $rental);
         $rental->delete();
-        return redirect()->route('user.rentals', ['id' => Auth::id()]);;
+        return redirect()->route('user.rentals', ['id' => Auth::id()]);
+        ;
     }
 }

@@ -28,7 +28,7 @@ class RentalRegistrationTest extends DuskTestCase
     }
 
     public function test_物品の貸出を登録()
-    {   
+    {
         //FIXME: ブラウザテスト側のend_dateフォームの形式がmm/dd/yyyyになっている。
         //ローカルではyyyy/mm/ddなので統一する必要がある
         $return_date = Carbon::today();
@@ -36,7 +36,7 @@ class RentalRegistrationTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($item, $return_date) {
             $browser->loginAs($this->user)
                     ->visit('/items')
-                    ->click('@show_link_'. $item->id)
+                    ->click('@show_link_' . $item->id)
                     ->assertSee('貸出可')
                     ->keys('#end_date', $return_date->month, $return_date->day, $return_date->year)
                     ->press('貸出する')
@@ -44,23 +44,23 @@ class RentalRegistrationTest extends DuskTestCase
                     ->assertSee('貸出中');
         });
     }
-    
+
     public function test_返却予定日を指定しないとエラーメッセージを表示()
-    {   
+    {
         $item = Item::factory()->create(["name" => "rentable_item"]);
         $this->browse(function (Browser $browser) use ($item) {
             $browser->loginAs($this->user)
                     ->visit('/items')
-                    ->click('@show_link_'. $item->id)
+                    ->click('@show_link_' . $item->id)
                     ->assertSee('貸出可')
                     ->press('貸出する')
                     ->assertSee('返却予定日は必須です。')
                     ->assertRouteIs('item.show', ['id' => $item->id ]);
-                });
-            }
-            
+        });
+    }
+
     public function test_返却予定日が過去の日付だとエラーメッセージを表示()
-    {   
+    {
         //FIXME: ブラウザテスト側のend_dateフォームの形式がmm/dd/yyyyになっている。
         //ローカルではyyyy/mm/ddなので統一する必要がある
         $return_date = Carbon::yesterday();
@@ -68,7 +68,7 @@ class RentalRegistrationTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($item, $return_date) {
             $browser->loginAs($this->user)
             ->visit('/items')
-            ->click('@show_link_'. $item->id)
+            ->click('@show_link_' . $item->id)
             ->assertSee('貸出可')
             ->keys('#end_date', $return_date->month, $return_date->day, $return_date->year)
             ->press('貸出する')
