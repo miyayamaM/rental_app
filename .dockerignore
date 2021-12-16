@@ -1,0 +1,11 @@
+app/.env
+app/.env.backup
+app/.env.testing
+app/.env.dusk.testing
+app/.phpunit.result.cache
+app/npm-debug.log
+app/yarn-error.log
+.idea
+app/config/debugbar.php
+app/storage/debugbar
+
