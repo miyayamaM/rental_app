@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Configure AWS Credentials
-      - uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@master
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           role-session-name: deploy-role-session
