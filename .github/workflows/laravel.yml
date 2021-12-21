@@ -104,7 +104,7 @@ jobs:
         with:
           task-definition: aws/task-definition.json
           container-name: apache-laravel
-          image: 280107060642.dkr.ecr.us-west-1.amazonaws.com/rental-app-feature:latest
+          image: 280107060642.dkr.ecr.us-west-1.amazonaws.com/rental-app-feature:${{ github.sha }}
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
