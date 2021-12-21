@@ -22,7 +22,7 @@ jobs:
         options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
         env:
           MYSQL_DATABASE: laravel
-          MYSQL_USER: root
+          MYSQL_USER: user
           MYSQL_PASSWORD: password
 
     env:
@@ -30,7 +30,7 @@ jobs:
       DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_DATABASE: laravel
-      DB_USERNAME: root
+      DB_USERNAME: user
       DB_PASSWORD: password
 
     steps:
