@@ -60,3 +60,9 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: vendor/bin/phpunit
       working-directory: ./app
+    - name: Execute PHPStan analysis
+      run: ./vendor/bin/phpstan analyse --memory-limit=2G
+      working-directory: ./app
+    - name: Execute PHP_CodeSniffer
+      run: ./vendor/bin/phpcs --standard=phpcs.xml ./
+      working-directory: ./app
