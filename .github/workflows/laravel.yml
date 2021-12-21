@@ -66,3 +66,17 @@ jobs:
     - name: Execute PHP_CodeSniffer
       run: ./vendor/bin/phpcs --standard=phpcs.xml ./
       working-directory: ./app
+
+  aws-deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ROLE_ARN: arn:aws:iam::280107060642:role/role-for-github-actions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+      - uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          role-session-name: deploy-role-session
+          aws-region: ap-west-1
+      - run: aws sts get-caller-identity
