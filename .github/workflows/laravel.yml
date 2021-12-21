@@ -69,6 +69,9 @@ jobs:
 
   aws-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     env:
       AWS_ROLE_ARN: arn:aws:iam::280107060642:role/role-for-github-actions
     steps:
