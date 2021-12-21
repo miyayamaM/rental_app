@@ -74,9 +74,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           role-session-name: deploy-role-session
-          aws-region: ap-west-1
+          aws-region: us-west-1
       - run: aws sts get-caller-identity
