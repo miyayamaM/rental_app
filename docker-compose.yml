@@ -3,7 +3,9 @@ volumes:
   mysql-volume:
 services:
   app:
-    build: ./docker
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     ports:
       - 80:80
     volumes:
