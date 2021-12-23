@@ -1,0 +1,108 @@
+{
+  "ipcMode": null,
+  "executionRoleArn": "arn:aws:iam::280107060642:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": [],
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "command": [],
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "APP_DEBUG",
+          "value": "false"
+        },
+        {
+          "name": "APP_ENV",
+          "value": "production"
+        },
+        {
+          "name": "APP_KEY",
+          "value": "base64:qDVzALy2jXp6Mr1nG2iVQbAFaRIc9bcYSaJ7lU8DftI="
+        },
+        {
+          "name": "APP_URL",
+          "value": "http://www.rental-app.net"
+        },
+        {
+          "name": "DB_CONNECTION",
+          "value": "mysql"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "3306"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [],
+      "workingDirectory": "/var/www/app",
+      "secrets": [
+        {
+          "name": "DB_HOST",
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:host::"
+        },
+        {
+          "name": "DB_DATABASE",
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:dbname::"
+        },
+        {
+          "name": "DB_USERNAME",
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:username::"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:password::"
+        }
+      ],
+      "dockerSecurityOptions": null,
+      "memory": 300,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "280107060642.dkr.ecr.us-west-1.amazonaws.com/rental-app",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "apache-laravel"
+    }
+  ],
+  "placementConstraints": [],
+  "memory": null,
+  "taskRoleArn": null,
+  "family": "rental-app-task-definition",
+  "pidMode": null,
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "networkMode": null,
+  "runtimePlatform": null,
+  "cpu": null,
+  "inferenceAccelerators": null,
+  "proxyConfiguration": null,
+  "volumes": []
+}
