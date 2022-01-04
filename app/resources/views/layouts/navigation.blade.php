@@ -31,6 +31,11 @@
                         {{ __('貸出照会') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('user.reservations', ['id'=> Auth::id() ])" :active="request()->routeIs('user.reservations')" dusk="reservation_on_navigation">
+                        {{ __('予約照会') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
