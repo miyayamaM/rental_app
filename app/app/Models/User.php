@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,6 +21,7 @@ use App\Models\Rental;
  * @property string $password
  * @property string $remember_token
  * @property \Illuminate\Database\Eloquent\Collection $items
+ * @property \Illuminate\Database\Eloquent\Collection $reservations
  */
 class User extends Authenticatable
 {
@@ -59,5 +62,15 @@ class User extends Authenticatable
     public function items()
     {
         return $this->belongsToMany('App\Models\Item', 'rentals')->whereNull('rentals.deleted_at')->withPivot('end_date', 'id');
+    }
+
+    /**
+     * 現在の予約状況を取得
+     *
+     * @return  BelongsToMany
+     */
+    public function reservations(): BelongsToMany
+    {
+        return $this->belongsToMany('App\Models\Item', 'reservations')->whereNull('reservations.deleted_at')->withPivot('start_date', 'end_date', 'id');
     }
 }
