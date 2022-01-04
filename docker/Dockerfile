@@ -15,3 +15,7 @@ RUN sed -i 's!/var/www/html!/var/www/app/public!g' /etc/apache2/sites-available/
 
 RUN cd /etc/apache2/mods-enabled \
 && ln -s ../mods-available/rewrite.load
+
+WORKDIR /var/www/app
+RUN composer install
+RUN chmod -R 777 /var/www/app/storage/*
