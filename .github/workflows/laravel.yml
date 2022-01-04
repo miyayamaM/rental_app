@@ -89,7 +89,7 @@ jobs:
         with:
           registry: ${{ secrets.ECR_REGISTRY }}
       - name: rewrite task-definition
-        run: sed -i -e s/SED_TARGET_AWS_ACCOUNT_ID/${{ secrets.AWS_ACCOUNT_ID }}/g .aws/task-definition.json
+        run: sed -i -e s/SED_TARGET_AWS_ACCOUNT_ID/${{ secrets.AWS_ACCOUNT_ID }}/g aws/task-definition.json
       - name: Build and Push image to ECR
         uses: docker/build-push-action@v2
         with:
