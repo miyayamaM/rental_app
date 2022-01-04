@@ -1,6 +1,6 @@
 {
   "ipcMode": null,
-  "executionRoleArn": "arn:aws:iam::280107060642:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::SED_TARGET_AWS_ACCOUNT_ID:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "dnsSearchDomains": null,
@@ -51,19 +51,19 @@
       "secrets": [
         {
           "name": "DB_HOST",
-          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:host::"
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:SED_TARGET_AWS_ACCOUNT_ID:secret:rental-app-rds-access-41smDx:host::"
         },
         {
           "name": "DB_DATABASE",
-          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:dbname::"
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:SED_TARGET_AWS_ACCOUNT_ID:secret:rental-app-rds-access-41smDx:dbname::"
         },
         {
           "name": "DB_USERNAME",
-          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:username::"
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:SED_TARGET_AWS_ACCOUNT_ID:secret:rental-app-rds-access-41smDx:username::"
         },
         {
           "name": "DB_PASSWORD",
-          "valueFrom": "arn:aws:secretsmanager:us-west-1:280107060642:secret:rental-app-rds-access-41smDx:password::"
+          "valueFrom": "arn:aws:secretsmanager:us-west-1:SED_TARGET_AWS_ACCOUNT_ID:secret:rental-app-rds-access-41smDx:password::"
         }
       ],
       "dockerSecurityOptions": null,
@@ -71,7 +71,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "280107060642.dkr.ecr.us-west-1.amazonaws.com/rental-app",
+      "image": "SED_TARGET_AWS_ACCOUNT_ID.dkr.ecr.us-west-1.amazonaws.com/rental-app",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
