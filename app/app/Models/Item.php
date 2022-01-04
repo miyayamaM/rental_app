@@ -42,6 +42,6 @@ class Item extends Model
      */
     public function reservations(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\User', 'reservations')->whereNull('rentals.deleted_at');
+        return $this->belongsToMany('App\Models\User', 'reservations')->whereNull('reservations.deleted_at')->withPivot('start_date', 'end_date', 'id');
     }
 }

@@ -64,3 +64,7 @@ Route::delete('/rentals/{id}', ['App\Http\Controllers\RentalController', 'destro
 Route::get('/users/{id}/reservations', ['App\Http\Controllers\ReservationController', 'index'])
     ->middleware('auth')
     ->name('user.reservations');
+
+Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])
+    ->middleware('auth')
+    ->name('reservations.new');

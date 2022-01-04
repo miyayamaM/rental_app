@@ -33,8 +33,8 @@ class ReservationTest extends TestCase
             ->hasAttached(
                 Item::factory()->count(3),
                 [
-                    'start_date' => '2021-10-01',
-                    'end_date' => '2021-11-01',
+                    'start_date' => '2022-10-01',
+                    'end_date' => '2022-11-01',
                 ],
                 'reservations',
             )
@@ -62,6 +62,24 @@ class ReservationTest extends TestCase
         $non_existent_user_id = User::all()->max('id') + 1;
         $response = $this->actingAs($this->user)
             ->get(route('user.reservations', ['id' => $non_existent_user_id]));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_予約登録画面が表示される()
+    {
+        $item = $this->user->reservations->first();
+        $response = $this->actingAs($this->user)
+            ->get(route('reservations.new', ['id' => $item->id]));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_存在しない物品の予約登録画面は404を返す()
+    {
+        $non_existent_item_id = Item::all()->max('id') + 1;
+        $response = $this->actingAs($this->user)
+            ->get(route('reservations.new', ['id' => $non_existent_item_id]));
 
         $response->assertStatus(404);
     }
