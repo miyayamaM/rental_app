@@ -68,3 +68,7 @@ Route::get('/users/{id}/reservations', ['App\Http\Controllers\ReservationControl
 Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])
     ->middleware('auth')
     ->name('reservations.new');
+
+Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])
+    ->middleware('auth')
+    ->name('reservations.create');
