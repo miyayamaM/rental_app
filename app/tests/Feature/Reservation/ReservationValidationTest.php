@@ -26,7 +26,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-                         ->post('/reservations/items',
+                         ->post(
+                             '/reservations/items',
                              [
                                  'item_id' => $item->id,
                                  'start_date' => Carbon::tomorrow(),
@@ -46,7 +47,8 @@ class ReservationValidationTest extends TestCase
     public function test_物品IDが空白では予約できない()
     {
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => null,
                     'start_date' => Carbon::tomorrow(),
@@ -66,7 +68,8 @@ class ReservationValidationTest extends TestCase
     public function test_物品IDが整数以外では予約できない()
     {
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => 'wrong_item_id',
                     'start_date' => Carbon::tomorrow(),
@@ -87,7 +90,8 @@ class ReservationValidationTest extends TestCase
     {
         $non_existent_item_id = Item::max('id') + 1;
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $non_existent_item_id,
                     'start_date' => Carbon::tomorrow(),
@@ -108,7 +112,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $item->id,
                     'start_date' => null,
@@ -129,7 +134,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $item->id,
                     'start_date' => 'wrong_type',
@@ -150,7 +156,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $item->id,
                     'start_date' => Carbon::today(),
@@ -171,7 +178,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $item->id,
                     'start_date' =>  Carbon::tomorrow(),
@@ -192,7 +200,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $item->id,
                     'start_date' =>  Carbon::tomorrow(),
@@ -213,7 +222,8 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-            ->post('/reservations/items',
+            ->post(
+                '/reservations/items',
                 [
                     'item_id' => $item->id,
                     'start_date' =>  Carbon::today()->addDay(20),
