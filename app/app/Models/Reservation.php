@@ -27,4 +27,14 @@ class Reservation extends Model
         'start_date',
         'end_date',
     ];
+
+    public static function checkNoOverlapWithReservations($item_id, $start_date, $end_date): bool
+    {
+        $overlap_counts = Reservation::where('item_id', $item_id)
+                    ->where('start_date', '<', $end_date)
+                    ->where('end_date', '>', $start_date)
+                    ->count();
+
+        return $overlap_counts > 0;
+    }
 }

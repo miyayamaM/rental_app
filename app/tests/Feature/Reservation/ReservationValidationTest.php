@@ -14,12 +14,28 @@ class ReservationValidationTest extends TestCase
     use RefreshDatabase;
 
     protected $user;
+    protected $item;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
+
+        $this->item = Item::factory()->create();
+        Reservation::create([
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' => Carbon::today()->addDay(11),
+            'end_date' => Carbon::today()->addDay(15)
+        ]);
+
+        Reservation::create([
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' => Carbon::today()->addDay(21),
+            'end_date' => Carbon::today()->addDay(25)
+        ]);
     }
 
     public function test_物品の予約を登録する()
@@ -238,5 +254,168 @@ class ReservationValidationTest extends TestCase
             'start_date' => Carbon::today()->addDay(20),
             'end_date' => Carbon::today()->addDay(10)
         ]);
+    }
+
+    public function test_返却予定日のみが重複する場合は予約できない()
+    {
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $this->item->id,
+                    'start_date' =>  Carbon::today()->addDay(1),
+                    'end_date' => Carbon::today()->addDay(13)
+                ]
+            );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' =>  Carbon::today()->addDay(1),
+            'end_date' => Carbon::today()->addDay(13)
+        ]);
+    }
+
+    public function test_貸出予定日のみが重複する場合は予約できない()
+    {
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $this->item->id,
+                    'start_date' =>  Carbon::today()->addDay(13),
+                    'end_date' => Carbon::today()->addDay(18)
+                ]
+            );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' =>  Carbon::today()->addDay(13),
+            'end_date' => Carbon::today()->addDay(18)
+        ]);
+    }
+
+    public function test_他の予約期間を含む期間では予約できない()
+    {
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $this->item->id,
+                    'start_date' =>  Carbon::today()->addDay(1),
+                    'end_date' => Carbon::today()->addDay(18)
+                ]
+            );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' =>  Carbon::today()->addDay(1),
+            'end_date' => Carbon::today()->addDay(18)
+        ]);
+    }
+
+    public function test_他の予約期間に含まれる期間では予約できない()
+    {
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $this->item->id,
+                    'start_date' =>  Carbon::today()->addDay(11),
+                    'end_date' => Carbon::today()->addDay(12)
+                ]
+            );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' =>  Carbon::today()->addDay(11),
+            'end_date' => Carbon::today()->addDay(12)
+        ]);
+    }
+
+    public function test_予約期間に挟まれた期間で予約できる()
+    {
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $this->item->id,
+                    'start_date' =>  Carbon::today()->addDay(16),
+                    'end_date' => Carbon::today()->addDay(20)
+                ]
+            );
+
+        $this->assertDatabaseHas('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' =>  Carbon::today()->addDay(16),
+            'end_date' => Carbon::today()->addDay(20)
+        ]);
+    }
+
+    public function test_他の物品と予約期間が重複しても予約できる()
+    {
+        $item = Item::factory()->create();
+        Reservation::create([
+            'user_id' => $this->user->id,
+            'item_id' => $item->id,
+            'start_date' => Carbon::today()->addDay(10),
+            'end_date' => Carbon::today()->addDay(20)
+        ]);
+
+        $another_item = Item::factory()->create();
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $another_item->id,
+                    'start_date' =>  Carbon::today()->addDay(7),
+                    'end_date' => Carbon::today()->addDay(30)
+                ]
+            );
+
+        $this->assertDatabaseHas('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $another_item->id,
+            'start_date' =>  Carbon::today()->addDay(7),
+            'end_date' => Carbon::today()->addDay(30)
+        ]);
+        $response->assertRedirect(route('reservations.new', ['id' => $another_item->id]));
+    }
+
+    public function test_返却予定日から予約できる()
+    {
+        $item = Item::factory()->create();
+        Reservation::create([
+            'user_id' => $this->user->id,
+            'item_id' => $item->id,
+            'start_date' => Carbon::today()->addDay(10),
+            'end_date' => Carbon::today()->addDay(20)
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $item->id,
+                    'start_date' =>  Carbon::today()->addDay(20),
+                    'end_date' => Carbon::today()->addDay(30)
+                ]
+            );
+
+        $this->assertDatabaseHas('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $item->id,
+            'start_date' =>  Carbon::today()->addDay(20),
+            'end_date' => Carbon::today()->addDay(30)
+        ]);
+        $response->assertRedirect(route('reservations.new', ['id' => $item->id]));
     }
 }
