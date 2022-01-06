@@ -43,6 +43,11 @@ class ReservationController extends Controller
             return redirect()->route('reservations.new', ['id' => $request->item_id]);
         };
 
+        if(Reservation::checkNoOverlapWithRentals($request->item_id, $request->start_date))
+        {
+            return redirect()->route('reservations.new', ['id' => $request->item_id]);
+        };
+
         Reservation::create(
             [
                 "user_id" => Auth::id(),

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Rental;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Carbon\Carbon;
@@ -417,5 +418,32 @@ class ReservationValidationTest extends TestCase
             'end_date' => Carbon::today()->addDay(30)
         ]);
         $response->assertRedirect(route('reservations.new', ['id' => $item->id]));
+    }
+
+    public function test_現在の貸出期間と重複して予約はできない()
+    {
+        Rental::create([
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'end_date' => Carbon::today()->addDay(5)
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $this->item->id,
+                    'start_date' =>  Carbon::today()->addDay(2),
+                    'end_date' => Carbon::today()->addDay(7)
+                ]
+            );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $this->item->id,
+            'start_date' =>  Carbon::today()->addDay(2),
+            'end_date' => Carbon::today()->addDay(7)
+        ]);
     }
 }

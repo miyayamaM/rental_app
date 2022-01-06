@@ -37,4 +37,13 @@ class Reservation extends Model
 
         return $overlap_counts > 0;
     }
+
+    public static function checkNoOverlapWithRentals($item_id, $start_date): bool
+    {
+        $overlap_counts = Rental::where('item_id', $item_id)
+            ->where('end_date', '>', $start_date)
+            ->count();
+
+        return $overlap_counts > 0;
+    }
 }
