@@ -32,7 +32,7 @@
                                     <form method="post" action="/reservations/{{ $item->pivot->id }}}">
                                             @csrf
                                             @method('DELETE')
-                                            <button>キャンセル</button>
+                                            <button dusk="reservation_cancel_link_{{ $item->id }}">キャンセル</button>
                                     </form>
                                 </td>
                             </tr>

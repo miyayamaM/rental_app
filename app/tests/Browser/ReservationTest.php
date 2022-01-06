@@ -2,8 +2,10 @@
 
 namespace Tests\Browser;
 
+use App\Models\Reservation;
 use App\Models\User;
 use App\Models\Item;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -34,17 +36,6 @@ class ReservationTest extends DuskTestCase
                 'reservations',
             )
             ->create();
-
-        $this->another_user = User::factory()
-            ->hasAttached(
-                Item::factory()->count(3),
-                [
-                    'start_date' => '2022-10-01',
-                    'end_date' => '2022-11-01',
-                ],
-                'reservations',
-            )
-            ->create();
     }
 
     public function test_自分の予約照会が表示される()
@@ -61,17 +52,40 @@ class ReservationTest extends DuskTestCase
         });
     }
 
-    public function test_他ユーザーの予約照会が表示される()
+    public function test_物品の予約状況が表示される()
     {
-        $this->browse(function (Browser $browser) {
+        $another_user = User::factory()->create();
+        $item = $this->user->reservations->first();
+        Reservation::create([
+            'user_id' => $another_user->id,
+            'item_id' => $item->id,
+            'start_date' => Carbon::today()->addDay(2),
+            'end_date' => Carbon::today()->addDay(5),
+        ]);
+
+        $this->browse(function (Browser $browser) use ($another_user, $item) {
             $browser->loginAs($this->user)
-                    ->visit('/dashboard')
-                    ->click('@reservation_on_navigation')
-                    ->assertRouteIs('user.reservations', ['id' => $this->another_user->id])
-                    ->assertSee($this->another_user->name . 'さんが予約している物品')
-                    ->assertSee($this->another_user->reservations->first()->name)
-                    ->assertSee('2022-10-01')
-                    ->assertSee('2022-11-01');
+                ->visit('/dashboard')
+                ->click('@itemlist_on_navigation')
+                ->click('@reservation_link_' . $item->id)
+                ->assertSee('2021-10-01')
+                ->assertSee('2021-11-01')
+                ->assertSee($another_user->name)
+                ->assertSee(Carbon::today()->addDay(2))
+                ->assertSee(Carbon::today()->addDay(5));
+        });
+    }
+
+    public function test_予約をキャンセルする()
+    {
+        $item = $this->user->reservations->first();
+        $this->browse(function (Browser $browser) use ($item) {
+            $browser->loginAs($this->user)
+                ->visit('/dashboard')
+                ->click('@reservation_on_navigation')
+                ->assertSee($item->name)
+                ->click('@reservation_cancel_link_' . $item->pivot->id)
+                ->assertDontSee($item->name);
         });
     }
 }
