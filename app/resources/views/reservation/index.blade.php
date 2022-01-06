@@ -29,7 +29,7 @@
                                 <td class="border px-7 py-3">{{ $item->pivot->start_date }}</td>
                                 <td class="border px-7 py-3">{{ $item->pivot->end_date }}</td>
                                 <td class="border px-7 py-3">
-                                    <form method="post">
+                                    <form method="post" action="/reservations/{{ $item->pivot->id }}}">
                                             @csrf
                                             @method('DELETE')
                                             <button>キャンセル</button>

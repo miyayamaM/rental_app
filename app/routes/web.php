@@ -72,3 +72,7 @@ Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationControl
 Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])
     ->middleware('auth')
     ->name('reservations.create');
+
+Route::delete('/reservations/{id}', ['App\Http\Controllers\ReservationController', 'destroy'])
+    ->middleware('auth')
+    ->name('reservation.destroy');
