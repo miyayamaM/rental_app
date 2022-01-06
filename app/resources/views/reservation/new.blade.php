@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="/reservations/items/{{ $item->id }}">
+                    <form method="POST" action="/reservations/items">
                         @csrf
                         <input type="hidden" name="item_id" value="{{ $item->id }}">
                         <div class="md:flex md:items-center mb-6">
