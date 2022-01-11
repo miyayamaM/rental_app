@@ -14,7 +14,7 @@ class ReservationController extends Controller
     public function index(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user_name = Auth::id() == $id ? 'あなた' : $user->name . 'さん';
+        $user_name = Auth::id() === intval($id) ? 'あなた' : $user->name . 'さん';
         $reservation_items = $user->reservations;
 
         return view('reservation.index', compact('reservation_items', 'user_name'));
@@ -34,7 +34,7 @@ class ReservationController extends Controller
             [
                 'item_id' => ['required', 'int', 'exists:items,id'],
                 'start_date' => ['required', 'date', 'after:today'],
-                'end_date' => ['required', 'date', 'after:start_date'],
+                'end_date' => ['required', 'date', 'after:start_date', 'before:+10 years'],
             ]
         );
 
