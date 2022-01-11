@@ -108,4 +108,24 @@ class ReservationRegistrationTest extends DuskTestCase
                 ->assertSee('返却予定日には貸出開始日以降の日付を指定してください。');
         });
     }
+
+    //FIXME: ブラウザテスト側のdateフォームの形式がmm/dd/yyyyになっている。
+    //ローカルではyyyy/mm/ddなので統一する必要がある
+    public function test_返却予定日が10年より後だとエラーメッセージを表示()
+    {
+        $start_date = Carbon::today()->addDay(5);
+        $end_date = Carbon::today()->addYear(10)->addDay(1);
+        $item = $this->user->reservations->first();
+
+        $this->browse(function (Browser $browser) use ($item, $start_date, $end_date) {
+            $browser->loginAs($this->user)
+                ->visit('/dashboard')
+                ->click('@itemlist_on_navigation')
+                ->click('@reservation_link_' . $item->id)
+                ->keys('#start_date', sprintf('%02d', $start_date->month), sprintf('%02d', $start_date->day), $start_date->year)
+                ->keys('#end_date', sprintf('%02d', $end_date->month), sprintf('%02d', $end_date->day), $end_date->year)
+                ->press('予約する')
+                ->assertSee('返却予定日には10年以内の日付を指定してください。');
+        });
+    }
 }

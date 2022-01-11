@@ -257,6 +257,49 @@ class ReservationValidationTest extends TestCase
         ]);
     }
 
+    public function test_返却予定日がちょうど10年後まで予約できる()
+    {
+        $item = Item::factory()->create();
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $item->id,
+                    'start_date' =>  Carbon::today()->addDay(20),
+                    'end_date' => Carbon::today()->addYear(10),
+                ]
+            );
+
+        $this->assertDatabaseHas('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $item->id,
+            'start_date' => Carbon::today()->addDay(20),
+            'end_date' => Carbon::today()->addYear(10)
+        ]);
+    }
+
+    public function test_返却予定日が10年より後では予約できない()
+    {
+        $item = Item::factory()->create();
+        $response = $this->actingAs($this->user)
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $item->id,
+                    'start_date' =>  Carbon::today()->addDay(20),
+                    'end_date' => Carbon::today()->addYear(10)->addDay(1),
+                ]
+            );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $item->id,
+            'start_date' => Carbon::today()->addDay(20),
+            'end_date' => Carbon::today()->addYear(10)->addDay(1)
+        ]);
+    }
+
     public function test_返却予定日のみが重複する場合は予約できない()
     {
         $response = $this->actingAs($this->user)

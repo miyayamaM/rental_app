@@ -105,6 +105,7 @@ return [
         ],
         'end_date' => [
             'after_or_equal' => ':attributeには今日かそれ以降の日付を指定してください。',
+            'before' => ':attributeには10年以内の日付を指定してください。',
         ],
     ],
 
