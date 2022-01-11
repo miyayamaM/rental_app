@@ -46,7 +46,7 @@ class RegisterRentals extends Command
         $target_date = Carbon::today();
         $reservations = Reservation::where('start_date', $target_date)->get();
 
-        foreach($reservations as $reservation) {
+        foreach ($reservations as $reservation) {
             try {
                 DB::beginTransaction();
 
@@ -54,8 +54,7 @@ class RegisterRentals extends Command
                         'user_id' => $reservation->user_id,
                         'item_id' => $reservation->item_id,
                         'end_date' => $reservation->end_date,
-                    ]
-                );
+                    ]);
 
                 Reservation::find($reservation->id)->delete();
 
