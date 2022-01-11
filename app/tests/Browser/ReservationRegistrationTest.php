@@ -71,7 +71,7 @@ class ReservationRegistrationTest extends DuskTestCase
         });
     }
 
-    public function test_貸出予定日が今日より前だとエラーメッセージを表示()
+    public function test_貸出開始日が明日より前だとエラーメッセージを表示()
     {
         $start_date = Carbon::today()->subDay(2);
         $end_date = Carbon::today()->addDay(5);
@@ -85,7 +85,7 @@ class ReservationRegistrationTest extends DuskTestCase
                 ->keys('#start_date', sprintf('%02d', $start_date->month), sprintf('%02d', $start_date->day), $start_date->year)
                 ->keys('#end_date', sprintf('%02d', $end_date->month), sprintf('%02d', $end_date->day), $end_date->year)
                 ->press('予約する')
-                ->assertSee('貸出開始日には今日以降の日付を指定してください。');
+                ->assertSee('貸出開始日には明日以降の日付を指定してください。');
         });
     }
 
@@ -105,7 +105,7 @@ class ReservationRegistrationTest extends DuskTestCase
                 ->keys('#start_date', sprintf('%02d', $start_date->month), sprintf('%02d', $start_date->day), $start_date->year)
                 ->keys('#end_date', sprintf('%02d', $end_date->month), sprintf('%02d', $end_date->day), $end_date->year)
                 ->press('予約する')
-                ->assertSee('返却予定日には貸出開始日以降の日付を指定してください。');
+                ->assertSee('返却予定日には貸出開始日より後の日付を指定してください。');
         });
     }
 
