@@ -33,7 +33,7 @@ Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new'])
 
 Route::post('/items', ['App\Http\Controllers\ItemController', 'create'])
                 ->middleware('auth');
- 
+
 Route::get('/items/{id}', ['App\Http\Controllers\ItemController', 'show'])
                 ->middleware('auth')
                 ->name('item.show');
@@ -60,3 +60,19 @@ Route::post('/rentals', ['App\Http\Controllers\RentalController', 'create'])
 Route::delete('/rentals/{id}', ['App\Http\Controllers\RentalController', 'destroy'])
                 ->middleware('auth')
                 ->name('rental.destroy');
+
+Route::get('/users/{id}/reservations', ['App\Http\Controllers\ReservationController', 'index'])
+    ->middleware('auth')
+    ->name('user.reservations');
+
+Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])
+    ->middleware('auth')
+    ->name('reservations.new');
+
+Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])
+    ->middleware('auth')
+    ->name('reservations.create');
+
+Route::delete('/reservations/{id}', ['App\Http\Controllers\ReservationController', 'destroy'])
+    ->middleware('auth')
+    ->name('reservation.destroy');

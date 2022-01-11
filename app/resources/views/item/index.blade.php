@@ -2,7 +2,7 @@
     <x-slot name="title">
         物品一覧
     </x-slot>
-    
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('物品一覧') }}
@@ -31,7 +31,7 @@
                                     <td class="border px-7 py-3">
                                         <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-100 bg-green-600 rounded-full">貸出可</span>
                                     </td>
-                                    <td class="border px-7 py-3">予約する</td>
+                                    <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('reservations.new', ['id' => $item->id]) }}" dusk="reservation_link_{{ $item->id }}">予約する</a></td>
                                     <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('item.edit', ['id' => $item->id]) }}" dusk="edit_link_{{ $item->id }}">編集する</a></td>
                                     <td class="border px-7 py-3">
                                         <form method="post" action="{{ route('item.destroy', ['id' => $item->id]) }}">
@@ -44,11 +44,10 @@
                                     <td class="border px-7 py-3">
                                         <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">貸出中</span>
                                     </td>
-                                    <td class="border px-7 py-3">予約する</td>
+                                    <td class="border px-7 py-3"><a class="hover:text-gray-400" href="{{ route('reservations.new', ['id' => $item->id]) }}" dusk="reservation_link_{{ $item->id }}">予約する</a></td>
                                     <td class="border px-7 py-3"></td>
                                     <td class="border px-7 py-3"></td>
                                 @endif
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -100,8 +100,13 @@ return [
     */
 
     'custom' => [
+        'start_date' => [
+            'after' => ':attributeには明日以降の日付を指定してください。',
+        ],
         'end_date' => [
+            'after' =>  ':attributeには:dateより後の日付を指定してください。',
             'after_or_equal' => ':attributeには今日かそれ以降の日付を指定してください。',
+            'before' => ':attributeには10年以内の日付を指定してください。',
         ],
     ],
 
@@ -120,7 +125,7 @@ return [
         'name' => '名前',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
+        'start_date' => '貸出開始日',
         'end_date' => '返却予定日',
     ],
-
 ];
