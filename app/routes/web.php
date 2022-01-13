@@ -23,56 +23,25 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/items', ['App\Http\Controllers\ItemController', 'index'])
-                ->middleware('auth')
-                ->name('item.index');
+Route::group(['middleware' => ['auth'], 'as' => 'item.'], function() {
+    Route::get('/items', ['App\Http\Controllers\ItemController', 'index'])->name('index');
+    Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new'])->name('new');
+    Route::post('/items', ['App\Http\Controllers\ItemController', 'create'])->name('create');
+    Route::get('/items/{id}', ['App\Http\Controllers\ItemController', 'show'])->name('show');
+    Route::get('/items/{id}/edit', ['App\Http\Controllers\ItemController', 'edit'])->name('edit');
+    Route::put('/items/{id}', ['App\Http\Controllers\ItemController', 'update'])->name('update');
+    Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])->name('destroy');
+});
 
-Route::get('/items/new', ['App\Http\Controllers\ItemController', 'new'])
-                ->middleware('auth')
-                ->name('item.new');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/users/{id}/rentals', ['App\Http\Controllers\RentalController', 'index'])->name('user.rentals');
+    Route::post('/rentals', ['App\Http\Controllers\RentalController', 'create'])->name('rental.create');
+    Route::delete('/rentals/{id}', ['App\Http\Controllers\RentalController', 'destroy'])->name('rental.destroy');
+});
 
-Route::post('/items', ['App\Http\Controllers\ItemController', 'create'])
-                ->middleware('auth');
-
-Route::get('/items/{id}', ['App\Http\Controllers\ItemController', 'show'])
-                ->middleware('auth')
-                ->name('item.show');
-Route::get('/items/{id}/edit', ['App\Http\Controllers\ItemController', 'edit'])
-                ->middleware('auth')
-                ->name('item.edit');
-
-Route::put('/items/{id}', ['App\Http\Controllers\ItemController', 'update'])
-                ->middleware('auth')
-                ->name('item.update');
-
-Route::delete('/items/{id}', ['App\Http\Controllers\ItemController', 'destroy'])
-                ->middleware('auth')
-                ->name('item.destroy');
-
-Route::get('/users/{id}/rentals', ['App\Http\Controllers\RentalController', 'index'])
-                ->middleware('auth')
-                ->name('user.rentals');
-
-Route::post('/rentals', ['App\Http\Controllers\RentalController', 'create'])
-                ->middleware('auth')
-                ->name('rental.create');
-
-Route::delete('/rentals/{id}', ['App\Http\Controllers\RentalController', 'destroy'])
-                ->middleware('auth')
-                ->name('rental.destroy');
-
-Route::get('/users/{id}/reservations', ['App\Http\Controllers\ReservationController', 'index'])
-    ->middleware('auth')
-    ->name('user.reservations');
-
-Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])
-    ->middleware('auth')
-    ->name('reservations.new');
-
-Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])
-    ->middleware('auth')
-    ->name('reservations.create');
-
-Route::delete('/reservations/{id}', ['App\Http\Controllers\ReservationController', 'destroy'])
-    ->middleware('auth')
-    ->name('reservation.destroy');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/users/{id}/reservations', ['App\Http\Controllers\ReservationController', 'index'])->name('user.reservations');
+    Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])->name('reservations.new');
+    Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])->name('reservations.create');
+    Route::delete('/reservations/{id}', ['App\Http\Controllers\ReservationController', 'destroy'])->name('reservation.destroy');
+});
