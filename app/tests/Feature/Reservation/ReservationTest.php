@@ -71,7 +71,7 @@ class ReservationTest extends TestCase
     {
         $item = $this->user->reservations->first();
         $response = $this->actingAs($this->user)
-            ->get(route('reservations.new', ['id' => $item->id]));
+            ->get(route('reservation.new', ['id' => $item->id]));
 
         $response->assertStatus(200);
     }
@@ -80,7 +80,7 @@ class ReservationTest extends TestCase
     {
         $non_existent_item_id = Item::all()->max('id') + 1;
         $response = $this->actingAs($this->user)
-            ->get(route('reservations.new', ['id' => $non_existent_item_id]));
+            ->get(route('reservation.new', ['id' => $non_existent_item_id]));
 
         $response->assertStatus(404);
     }

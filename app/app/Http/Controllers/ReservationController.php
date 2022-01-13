@@ -39,11 +39,11 @@ class ReservationController extends Controller
         );
 
         if (Reservation::checkNoOverlapWithReservations($request->item_id, $request->start_date, $request->end_date)) {
-            return redirect()->route('reservations.new', ['id' => $request->item_id]);
+            return redirect()->route('reservation.new', ['id' => $request->item_id]);
         };
 
         if (Reservation::checkNoOverlapWithRentals($request->item_id, $request->start_date)) {
-            return redirect()->route('reservations.new', ['id' => $request->item_id]);
+            return redirect()->route('reservation.new', ['id' => $request->item_id]);
         };
 
         Reservation::create(
@@ -55,7 +55,7 @@ class ReservationController extends Controller
             ]
         );
 
-        return redirect()->route('reservations.new', ['id' => $request->item_id]);
+        return redirect()->route('reservation.new', ['id' => $request->item_id]);
     }
 
     public function destroy($id)

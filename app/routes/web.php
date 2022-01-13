@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/users/{id}/reservations', ['App\Http\Controllers\ReservationController', 'index'])->name('user.reservations');
-    Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])->name('reservations.new');
-    Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])->name('reservations.create');
+    Route::get('/reservations/items/{id}', ['App\Http\Controllers\ReservationController', 'new'])->name('reservation.new');
+    Route::post('/reservations/items', ['App\Http\Controllers\ReservationController', 'create'])->name('reservation.create');
     Route::delete('/reservations/{id}', ['App\Http\Controllers\ReservationController', 'destroy'])->name('reservation.destroy');
 });
