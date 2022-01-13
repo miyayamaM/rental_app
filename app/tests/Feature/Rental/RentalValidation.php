@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Carbon\Carbon;
 
-class RentalTest extends TestCase
+class RentalValidationTest extends TestCase
 {
     use RefreshDatabase;
 
