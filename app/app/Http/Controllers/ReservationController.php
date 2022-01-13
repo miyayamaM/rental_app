@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ReservationRequest;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Reservation;
@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    //
-    public function index(Request $request, $id)
+    public function index($id)
     {
         $user = User::findOrFail($id);
         $user_name = Auth::id() === intval($id) ? 'あなた' : $user->name . 'さん';
@@ -20,7 +19,7 @@ class ReservationController extends Controller
         return view('reservation.index', compact('reservation_items', 'user_name'));
     }
 
-    public function new(Request $request, $id)
+    public function new($id)
     {
         $item = Item::findOrFail($id);
         $reservation_users = $item->reservations;
@@ -28,16 +27,8 @@ class ReservationController extends Controller
         return view('reservation.new', compact('reservation_users', 'item'));
     }
 
-    public function create(Request $request)
+    public function create(ReservationRequest $request)
     {
-        $request->validate(
-            [
-                'item_id' => ['required', 'int', 'exists:items,id'],
-                'start_date' => ['required', 'date', 'after:today'],
-                'end_date' => ['required', 'date', 'after:start_date', 'before:+10 years'],
-            ]
-        );
-
         if (Reservation::checkNoOverlapWithReservations($request->item_id, $request->start_date, $request->end_date)) {
             return redirect()->route('reservation.new', ['id' => $request->item_id]);
         };

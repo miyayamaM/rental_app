@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\RentalRequest;
 use App\Models\User;
 use App\Models\Rental;
 use Illuminate\Support\Facades\Auth;
-use App\Rules\IsRentable;
 
 class RentalController extends Controller
 {
-    public function index(Request $request, $id)
+    public function index($id)
     {
         $user = User::findOrFail($id);
         $user_name = Auth::id() === intval($id) ? 'あなた' : $user->name . 'さん';
@@ -19,15 +18,8 @@ class RentalController extends Controller
         return view('item.rentals', compact('rental_items', 'user_name'));
     }
 
-    public function create(Request $request)
+    public function create(RentalRequest $request)
     {
-        $request->validate(
-            [
-                'item_id' => ['required', 'int', 'exists:items,id', new IsRentable()],
-                'end_date' => ['required', 'date', 'after_or_equal:today']
-            ]
-        );
-
         Rental::create([
             "user_id" => Auth::id(),
             "item_id" => $request->item_id,
