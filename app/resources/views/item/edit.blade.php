@@ -19,7 +19,7 @@
                                 <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
                                     現在の物品名
                                 </label>
-                            </div>          
+                            </div>
                             <div class="md:w-4/5">
                                 <p class="text-gray-500 font-bold">{{ $item->name }}</p>
                             </div>
@@ -30,12 +30,12 @@
                                 <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
                                     変更後の物品名
                                 </label>
-                            </div>          
+                            </div>
                             <div class="md:w-4/5">
                                 @error('name')
                                     <p class="text-red-500">{{ $message }}</p>
                                 @enderror
-                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" name="name">
+                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" name="name"  value="{{ old('name') }}">
                             </div>
                         </div>
                         <div class="md:flex md:items-center mb-6">

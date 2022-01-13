@@ -52,7 +52,7 @@
                                 @error('start_date')
                                 <p class="text-red-500">{{ $message }}</p>
                                 @enderror
-                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="date" name="start_date" id="start_date">
+                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="date" name="start_date" id="start_date" value="{{ old('start_date') }}">
                             </div>
                         </div>
                         <div class="md:flex md:items-center mb-6">
@@ -65,7 +65,7 @@
                                 @error('end_date')
                                 <p class="text-red-500">{{ $message }}</p>
                                 @enderror
-                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="date" name="end_date" id="end_date">
+                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="date" name="end_date" id="end_date"  value="{{ old('end_date') }}">
                             </div>
                         </div>
                         <div class="md:flex md:items-center mb-6">
