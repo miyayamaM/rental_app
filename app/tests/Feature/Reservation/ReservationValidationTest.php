@@ -58,7 +58,7 @@ class ReservationValidationTest extends TestCase
             'start_date' => Carbon::tomorrow(),
             'end_date' => Carbon::today()->addDay(3)
         ]);
-        $response->assertRedirect(route('reservations.new', ['id' => $item->id]));
+        $response->assertRedirect(route('reservation.new', ['id' => $item->id]));
     }
 
     public function test_物品IDが空白では予約できない()
@@ -431,7 +431,7 @@ class ReservationValidationTest extends TestCase
             'start_date' =>  Carbon::today()->addDay(7),
             'end_date' => Carbon::today()->addDay(30)
         ]);
-        $response->assertRedirect(route('reservations.new', ['id' => $another_item->id]));
+        $response->assertRedirect(route('reservation.new', ['id' => $another_item->id]));
     }
 
     public function test_返却予定日から予約できる()
@@ -460,7 +460,7 @@ class ReservationValidationTest extends TestCase
             'start_date' =>  Carbon::today()->addDay(20),
             'end_date' => Carbon::today()->addDay(30)
         ]);
-        $response->assertRedirect(route('reservations.new', ['id' => $item->id]));
+        $response->assertRedirect(route('reservation.new', ['id' => $item->id]));
     }
 
     public function test_現在の貸出期間と重複して予約はできない()

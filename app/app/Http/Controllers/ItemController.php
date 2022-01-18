@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use Illuminate\Http\Request;
+use App\Http\Requests\ItemRequest;
+use App\Http\Requests\ItemEditRequest;
 use App\Rules\IsEditable;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,7 +12,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
+        $items = Item::with('users')->get();
         return view('item.index', compact('items'));
     }
 
@@ -20,13 +21,8 @@ class ItemController extends Controller
         return view('item.new');
     }
 
-    public function create(Request $request)
+    public function create(ItemRequest $request)
     {
-        $request->validate(
-            ['name' => ['required', 'string', 'max:255']],
-            [],
-            ['name' => '物品名']
-        );
         Item::create(['name' => $request->name]);
         return redirect('/items');
     }
@@ -46,19 +42,8 @@ class ItemController extends Controller
         return view('item.edit', compact('item'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ItemEditRequest $request, $id)
     {
-        $merged_params = array_merge($request->all(), [
-            'id' => $id,
-        ]);
-
-        $rules =  [
-            'id' => [new IsEditable()],
-            'name' => ['required', 'string', 'max:255']
-        ];
-
-        Validator::make($merged_params, $rules, [], ['name' => '物品名'])->validate();
-
         Item::findOrFail($id)->update([
                         'name' => $request->name
                     ]);
