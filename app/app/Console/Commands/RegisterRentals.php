@@ -16,7 +16,7 @@ class RegisterRentals extends Command
      *
      * @var string
      */
-    protected $signature = 'rentals:register';
+    protected $signature = 'rentals:register {start_date?}';
 
     /**
      * The console command description.
@@ -43,8 +43,8 @@ class RegisterRentals extends Command
      */
     public function handle()
     {
-        $target_date = Carbon::today();
-        $reservations = Reservation::where('start_date', $target_date)->get();
+        $target_date = new Carbon($this->argument('start_date'));
+        $reservations = Reservation::whereDate('start_date', $target_date)->get();
 
         foreach ($reservations as $reservation) {
             try {

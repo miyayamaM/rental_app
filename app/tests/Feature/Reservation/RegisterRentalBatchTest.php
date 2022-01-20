@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Reservation;
 use App\Models\User;
 use App\Models\Item;
 use Carbon\Carbon;
@@ -77,6 +78,31 @@ class RegisterRentalBatchTest extends TestCase
             'item_id' => $item_id,
             'start_date' => Carbon::today()->addDay(3),
             'end_date' => Carbon::today()->addDay(10),
+        ]);
+    }
+
+    public function test_予約実行コマンドの引数に日付を指定できる()
+    {
+        $item_id = $this->user->reservations->first()->id;
+        Reservation::create([
+            'user_id' => $this->user->id,
+            'item_id' => $item_id,
+            'start_date' => '2001-01-01',
+            'end_date' => '2001-02-01',
+        ]);
+        $this->artisan('rentals:register 2001-01-01');
+
+        $this->assertDatabaseHas('rentals', [
+            'user_id' => $this->user->id,
+            'item_id' => $item_id,
+            'end_date' => '2001-02-01',
+        ]);
+
+        $this->assertSoftDeleted('reservations', [
+            'user_id' => $this->user->id,
+            'item_id' => $item_id,
+            'start_date' => '2001-01-01',
+            'end_date' => '2001-02-01',
         ]);
     }
 }
