@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class ItemTableSeeder extends Seeder
+class ItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,13 +14,13 @@ class ItemTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $item = [
                 'name' => '物品' . $i,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-            \Illuminate\Support\Facades\DB::table('items')->insert($item);
+            DB::table('items')->insert($item);
         };
     }
 }
