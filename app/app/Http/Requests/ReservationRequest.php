@@ -15,8 +15,8 @@ class ReservationRequest extends FormRequest
     {
         return [
             'item_id' => ['required', 'int', 'exists:items,id'],
-            'start_date' => ['required', 'date', 'after:today'],
-            'end_date' => ['required', 'date', 'after:start_date', 'before:+10 years'],
+            'start_date' => ['required', 'date_format:Y-m-d', 'after:today'],
+            'end_date' => ['required', 'date_format:Y-m-d', 'after:start_date', 'before:+10 years'],
         ];
     }
 }

@@ -27,15 +27,15 @@ class ReservationValidationTest extends TestCase
         Reservation::create([
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' => Carbon::today()->addDay(11),
-            'end_date' => Carbon::today()->addDay(15)
+            'start_date' => Carbon::today()->addDay(11)->toDateString(),
+            'end_date' => Carbon::today()->addDay(15)->toDateString()
         ]);
 
         Reservation::create([
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' => Carbon::today()->addDay(21),
-            'end_date' => Carbon::today()->addDay(25)
+            'start_date' => Carbon::today()->addDay(21)->toDateString(),
+            'end_date' => Carbon::today()->addDay(25)->toDateString()
         ]);
     }
 
@@ -43,20 +43,20 @@ class ReservationValidationTest extends TestCase
     {
         $item = Item::factory()->create();
         $response = $this->actingAs($this->user)
-                         ->post(
-                             '/reservations/items',
-                             [
-                                 'item_id' => $item->id,
-                                 'start_date' => Carbon::tomorrow(),
-                                 'end_date' => Carbon::today()->addDay(3)
-                             ]
-                         );
+            ->post(
+                '/reservations/items',
+                [
+                    'item_id' => $item->id,
+                    'start_date' => Carbon::tomorrow()->toDateString(),
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
+                ]
+            );
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::tomorrow(),
-            'end_date' => Carbon::today()->addDay(3)
+            'start_date' => Carbon::tomorrow()->toDateString(),
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
         $response->assertRedirect(route('reservation.new', ['id' => $item->id]));
     }
@@ -68,8 +68,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => null,
-                    'start_date' => Carbon::tomorrow(),
-                    'end_date' => Carbon::today()->addDay(3)
+                    'start_date' => Carbon::tomorrow()->toDateString(),
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
                 ]
             );
 
@@ -77,8 +77,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => null,
-            'start_date' => Carbon::tomorrow(),
-            'end_date' => Carbon::today()->addDay(3)
+            'start_date' => Carbon::tomorrow()->toDateString(),
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
     }
 
@@ -89,8 +89,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => 'wrong_item_id',
-                    'start_date' => Carbon::tomorrow(),
-                    'end_date' => Carbon::today()->addDay(3)
+                    'start_date' => Carbon::tomorrow()->toDateString(),
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
                 ]
             );
 
@@ -98,8 +98,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => 'wrong_item_id',
-            'start_date' => Carbon::tomorrow(),
-            'end_date' => Carbon::today()->addDay(3)
+            'start_date' => Carbon::tomorrow()->toDateString(),
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
     }
 
@@ -111,8 +111,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $non_existent_item_id,
-                    'start_date' => Carbon::tomorrow(),
-                    'end_date' => Carbon::today()->addDay(3)
+                    'start_date' => Carbon::tomorrow()->toDateString(),
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
                 ]
             );
 
@@ -120,8 +120,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $non_existent_item_id,
-            'start_date' => Carbon::tomorrow(),
-            'end_date' => Carbon::today()->addDay(3)
+            'start_date' => Carbon::tomorrow()->toDateString(),
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
     }
 
@@ -134,7 +134,7 @@ class ReservationValidationTest extends TestCase
                 [
                     'item_id' => $item->id,
                     'start_date' => null,
-                    'end_date' => Carbon::today()->addDay(3)
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
                 ]
             );
 
@@ -143,7 +143,7 @@ class ReservationValidationTest extends TestCase
             'user_id' => $this->user->id,
             'item_id' => $item->id,
             'start_date' => null,
-            'end_date' => Carbon::today()->addDay(3)
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
     }
 
@@ -156,7 +156,7 @@ class ReservationValidationTest extends TestCase
                 [
                     'item_id' => $item->id,
                     'start_date' => 'wrong_type',
-                    'end_date' => Carbon::today()->addDay(3)
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
                 ]
             );
 
@@ -165,7 +165,7 @@ class ReservationValidationTest extends TestCase
             'user_id' => $this->user->id,
             'item_id' => $item->id,
             'start_date' => 'wrong_type',
-            'end_date' => Carbon::today()->addDay(3)
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
     }
 
@@ -177,8 +177,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' => Carbon::today(),
-                    'end_date' => Carbon::today()->addDay(3)
+                    'start_date' => Carbon::today()->toDateString(),
+                    'end_date' => Carbon::today()->addDay(3)->toDateString()
                 ]
             );
 
@@ -186,8 +186,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::today(),
-            'end_date' => Carbon::today()->addDay(3)
+            'start_date' => Carbon::today()->toDateString(),
+            'end_date' => Carbon::today()->addDay(3)->toDateString()
         ]);
     }
 
@@ -199,7 +199,7 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' =>  Carbon::tomorrow(),
+                    'start_date' =>  Carbon::tomorrow()->toDateString(),
                     'end_date' => null
                 ]
             );
@@ -208,7 +208,7 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::tomorrow(),
+            'start_date' => Carbon::tomorrow()->toDateString(),
             'end_date' => null
         ]);
     }
@@ -221,7 +221,7 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' =>  Carbon::tomorrow(),
+                    'start_date' =>  Carbon::tomorrow()->toDateString(),
                     'end_date' => 'wrong_date'
                 ]
             );
@@ -230,7 +230,7 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::tomorrow(),
+            'start_date' => Carbon::tomorrow()->toDateString(),
             'end_date' => 'wrong_date'
         ]);
     }
@@ -243,8 +243,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' =>  Carbon::today()->addDay(20),
-                    'end_date' => Carbon::today()->addDay(10)
+                    'start_date' =>  Carbon::today()->addDay(20)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(10)->toDateString()
                 ]
             );
 
@@ -252,8 +252,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::today()->addDay(20),
-            'end_date' => Carbon::today()->addDay(10)
+            'start_date' => Carbon::today()->addDay(20)->toDateString(),
+            'end_date' => Carbon::today()->addDay(10)->toDateString()
         ]);
     }
 
@@ -265,16 +265,16 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' =>  Carbon::today()->addDay(20),
-                    'end_date' => Carbon::today()->addYear(10),
+                    'start_date' =>  Carbon::today()->addDay(20)->toDateString(),
+                    'end_date' => Carbon::today()->addYear(10)->toDateString(),
                 ]
             );
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::today()->addDay(20),
-            'end_date' => Carbon::today()->addYear(10)
+            'start_date' => Carbon::today()->addDay(20)->toDateString(),
+            'end_date' => Carbon::today()->addYear(10)->toDateString()
         ]);
     }
 
@@ -286,8 +286,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' =>  Carbon::today()->addDay(20),
-                    'end_date' => Carbon::today()->addYear(10)->addDay(1),
+                    'start_date' =>  Carbon::today()->addDay(20)->toDateString(),
+                    'end_date' => Carbon::today()->addYear(10)->addDay(1)->toDateString(),
                 ]
             );
 
@@ -295,8 +295,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::today()->addDay(20),
-            'end_date' => Carbon::today()->addYear(10)->addDay(1)
+            'start_date' => Carbon::today()->addDay(20)->toDateString(),
+            'end_date' => Carbon::today()->addYear(10)->addDay(1)->toDateString()
         ]);
     }
 
@@ -307,8 +307,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $this->item->id,
-                    'start_date' =>  Carbon::today()->addDay(1),
-                    'end_date' => Carbon::today()->addDay(13)
+                    'start_date' =>  Carbon::today()->addDay(1)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(13)->toDateString()
                 ]
             );
 
@@ -316,8 +316,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' =>  Carbon::today()->addDay(1),
-            'end_date' => Carbon::today()->addDay(13)
+            'start_date' =>  Carbon::today()->addDay(1)->toDateString(),
+            'end_date' => Carbon::today()->addDay(13)->toDateString()
         ]);
     }
 
@@ -328,8 +328,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $this->item->id,
-                    'start_date' =>  Carbon::today()->addDay(13),
-                    'end_date' => Carbon::today()->addDay(18)
+                    'start_date' =>  Carbon::today()->addDay(13)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(18)->toDateString()
                 ]
             );
 
@@ -337,8 +337,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' =>  Carbon::today()->addDay(13),
-            'end_date' => Carbon::today()->addDay(18)
+            'start_date' =>  Carbon::today()->addDay(13)->toDateString(),
+            'end_date' => Carbon::today()->addDay(18)->toDateString()
         ]);
     }
 
@@ -349,8 +349,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $this->item->id,
-                    'start_date' =>  Carbon::today()->addDay(1),
-                    'end_date' => Carbon::today()->addDay(18)
+                    'start_date' =>  Carbon::today()->addDay(1)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(18)->toDateString()
                 ]
             );
 
@@ -358,8 +358,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' =>  Carbon::today()->addDay(1),
-            'end_date' => Carbon::today()->addDay(18)
+            'start_date' =>  Carbon::today()->addDay(1)->toDateString(),
+            'end_date' => Carbon::today()->addDay(18)->toDateString()
         ]);
     }
 
@@ -370,8 +370,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $this->item->id,
-                    'start_date' =>  Carbon::today()->addDay(11),
-                    'end_date' => Carbon::today()->addDay(12)
+                    'start_date' =>  Carbon::today()->addDay(11)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(12)->toDateString()
                 ]
             );
 
@@ -379,8 +379,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' =>  Carbon::today()->addDay(11),
-            'end_date' => Carbon::today()->addDay(12)
+            'start_date' =>  Carbon::today()->addDay(11)->toDateString(),
+            'end_date' => Carbon::today()->addDay(12)->toDateString()
         ]);
     }
 
@@ -391,16 +391,16 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $this->item->id,
-                    'start_date' =>  Carbon::today()->addDay(16),
-                    'end_date' => Carbon::today()->addDay(20)
+                    'start_date' =>  Carbon::today()->addDay(16)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(20)->toDateString()
                 ]
             );
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' =>  Carbon::today()->addDay(16),
-            'end_date' => Carbon::today()->addDay(20)
+            'start_date' =>  Carbon::today()->addDay(16)->toDateString(),
+            'end_date' => Carbon::today()->addDay(20)->toDateString()
         ]);
     }
 
@@ -410,8 +410,8 @@ class ReservationValidationTest extends TestCase
         Reservation::create([
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::today()->addDay(10),
-            'end_date' => Carbon::today()->addDay(20)
+            'start_date' => Carbon::today()->addDay(10)->toDateString(),
+            'end_date' => Carbon::today()->addDay(20)->toDateString()
         ]);
 
         $another_item = Item::factory()->create();
@@ -420,16 +420,16 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $another_item->id,
-                    'start_date' =>  Carbon::today()->addDay(7),
-                    'end_date' => Carbon::today()->addDay(30)
+                    'start_date' =>  Carbon::today()->addDay(7)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(30)->toDateString()
                 ]
             );
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $another_item->id,
-            'start_date' =>  Carbon::today()->addDay(7),
-            'end_date' => Carbon::today()->addDay(30)
+            'start_date' =>  Carbon::today()->addDay(7)->toDateString(),
+            'end_date' => Carbon::today()->addDay(30)->toDateString()
         ]);
         $response->assertRedirect(route('reservation.new', ['id' => $another_item->id]));
     }
@@ -440,8 +440,8 @@ class ReservationValidationTest extends TestCase
         Reservation::create([
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' => Carbon::today()->addDay(10),
-            'end_date' => Carbon::today()->addDay(20)
+            'start_date' => Carbon::today()->addDay(10)->toDateString(),
+            'end_date' => Carbon::today()->addDay(20)->toDateString()
         ]);
 
         $response = $this->actingAs($this->user)
@@ -449,16 +449,16 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $item->id,
-                    'start_date' =>  Carbon::today()->addDay(20),
-                    'end_date' => Carbon::today()->addDay(30)
+                    'start_date' =>  Carbon::today()->addDay(20)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(30)->toDateString()
                 ]
             );
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $item->id,
-            'start_date' =>  Carbon::today()->addDay(20),
-            'end_date' => Carbon::today()->addDay(30)
+            'start_date' =>  Carbon::today()->addDay(20)->toDateString(),
+            'end_date' => Carbon::today()->addDay(30)->toDateString()
         ]);
         $response->assertRedirect(route('reservation.new', ['id' => $item->id]));
     }
@@ -468,7 +468,7 @@ class ReservationValidationTest extends TestCase
         Rental::create([
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'end_date' => Carbon::today()->addDay(5)
+            'end_date' => Carbon::today()->addDay(5)->toDateString()
         ]);
 
         $response = $this->actingAs($this->user)
@@ -476,8 +476,8 @@ class ReservationValidationTest extends TestCase
                 '/reservations/items',
                 [
                     'item_id' => $this->item->id,
-                    'start_date' =>  Carbon::today()->addDay(2),
-                    'end_date' => Carbon::today()->addDay(7)
+                    'start_date' =>  Carbon::today()->addDay(2)->toDateString(),
+                    'end_date' => Carbon::today()->addDay(7)->toDateString()
                 ]
             );
 
@@ -485,8 +485,8 @@ class ReservationValidationTest extends TestCase
         $this->assertDatabaseMissing('reservations', [
             'user_id' => $this->user->id,
             'item_id' => $this->item->id,
-            'start_date' =>  Carbon::today()->addDay(2),
-            'end_date' => Carbon::today()->addDay(7)
+            'start_date' =>  Carbon::today()->addDay(2)->toDateString(),
+            'end_date' => Carbon::today()->addDay(7)->toDateString()
         ]);
     }
 }

@@ -16,7 +16,7 @@ class RentalRequest extends FormRequest
     {
         return [
             'item_id' => ['required', 'int', 'exists:items,id', new IsRentable()],
-            'end_date' => ['required', 'date', 'after_or_equal:today']
+            'end_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today']
         ];
     }
 }
