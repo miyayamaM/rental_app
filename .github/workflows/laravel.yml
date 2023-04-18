@@ -58,8 +58,8 @@ jobs:
     - name: Create Database
       run: php artisan migrate
       working-directory: ./app
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: vendor/bin/phpunit
+    - name: Execute tests
+      run: php artisan test
       working-directory: ./app
     - name: Execute PHPStan analysis
       run: ./vendor/bin/phpstan analyse --memory-limit=2G
