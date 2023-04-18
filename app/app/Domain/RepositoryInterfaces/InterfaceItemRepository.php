@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface InterfaceItemRepository
 {
-  public function list(): Collection;
+    public function list(): Collection;
 }

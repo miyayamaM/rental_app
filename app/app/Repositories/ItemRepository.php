@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ItemRepository implements InterfaceItemRepository
 {
-  public function list(): Collection
-  {
-    return Item::with('users')->get();
-  }
+    public function list(): Collection
+    {
+        return Item::with('users')->get();
+    }
 }
