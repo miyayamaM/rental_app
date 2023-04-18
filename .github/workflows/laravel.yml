@@ -39,7 +39,7 @@ jobs:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
         php-version: '8.0'
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Copy .env
       run: cp .env.example .env
       working-directory: ./app
@@ -58,14 +58,14 @@ jobs:
     - name: Create Database
       run: php artisan migrate
       working-directory: ./app
-    - name: Execute tests
-      run: php artisan test
-      working-directory: ./app
     - name: Execute PHPStan analysis
       run: ./vendor/bin/phpstan analyse --memory-limit=2G
       working-directory: ./app
     - name: Execute PHP_CodeSniffer
       run: ./vendor/bin/phpcs --standard=phpcs.xml ./
+      working-directory: ./app
+    - name: Execute tests
+      run: php artisan test
       working-directory: ./app
 
   # aws-deploy:
