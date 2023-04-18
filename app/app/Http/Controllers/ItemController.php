@@ -7,12 +7,20 @@ use App\Http\Requests\ItemRequest;
 use App\Http\Requests\ItemEditRequest;
 use App\Rules\IsEditable;
 use Illuminate\Support\Facades\Validator;
+use App\Domain\RepositoryInterfaces\InterfaceItemRepository;
 
 class ItemController extends Controller
 {
+    private InterfaceItemRepository $itemRepository;
+
+    public function __construct(InterfaceItemRepository $itemRepository)
+    {
+        $this->itemRepository = $itemRepository;
+    }
+
     public function index()
     {
-        $items = Item::with('users')->get();
+        $items = $this->itemRepository->list();
         return view('item.index', compact('items'));
     }
 
@@ -45,15 +53,15 @@ class ItemController extends Controller
     public function update(ItemEditRequest $request, $id)
     {
         Item::findOrFail($id)->update([
-                        'name' => $request->name
-                    ]);
+            'name' => $request->name
+        ]);
         return redirect()->route('item.show', ['id' => $id]);
     }
 
     public function destroy($id)
     {
         $rules = [
-            'id' => [ new IsEditable() ]
+            'id' => [new IsEditable()]
         ];
 
         Validator::make(['id' => $id], $rules)->validate();
