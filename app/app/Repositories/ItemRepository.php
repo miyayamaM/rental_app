@@ -12,4 +12,9 @@ class ItemRepository implements InterfaceItemRepository
     {
         return Item::with('users')->get();
     }
+
+    public function save(Item $item): void
+    {
+        $item->save();
+    }
 }

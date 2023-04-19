@@ -31,7 +31,10 @@ class ItemController extends Controller
 
     public function create(ItemRequest $request)
     {
-        Item::create(['name' => $request->name]);
+        $item = new Item;
+        $item->name = data_get($request->validated(), 'name');
+
+        $this->itemRepository->save($item);
         return redirect('/items');
     }
 
