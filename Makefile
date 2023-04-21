@@ -25,4 +25,6 @@ test:
 	docker-compose exec app php artisan test --env=testing
 
 dusk:
+	docker-compose exec app php artisan dusk:chrome-driver --detect
+	docker-compose exec app chmod -R 0755 vendor/laravel/dusk/bin
 	docker-compose exec app php artisan dusk --env=testing
