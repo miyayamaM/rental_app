@@ -17,4 +17,14 @@ class ItemRepository implements InterfaceItemRepository
     {
         $item->save();
     }
+
+    public function find(int $id): Item
+    {
+        return Item::find($id);
+    }
+
+    public function delete(Item $item): void
+    {
+        $item->delete();
+    }
 }
