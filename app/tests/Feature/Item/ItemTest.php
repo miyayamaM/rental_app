@@ -126,7 +126,7 @@ class ItemTest extends TestCase
         $response = $this->actingAs($user)->put(route('item.update', ['id' => $item->id, 'name' => 'updated name']));
 
         $this->assertSame(Item::find($item->id)->name, 'updated name');
-        $response->assertRedirect(route('item.show', ['id' => $item->id]));
+        $response->assertRedirect(route('item.index'));
     }
 
     public function test_name_cannot_be_changed_by_guest_user()
