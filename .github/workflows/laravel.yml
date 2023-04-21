@@ -26,6 +26,8 @@ jobs:
           MYSQL_USER: user
           MYSQL_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      selenium:
+        image: selenium/standalone-chrome
 
     env:
       DB_CONNECTION: mysql
@@ -67,6 +69,18 @@ jobs:
     - name: Execute tests
       run: php artisan test
       working-directory: ./app
+    - name: Execute Laravel Dusk
+      run: php artisan dusk
+      working-directory: ./app
+      env:
+          BROWSER: chrome
+
+    - name: Save screenshots if Dusk fails
+    - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: screenshots
+          path: screenshots/
 
   # aws-deploy:
   #   if: github.event.pull_request.merged == true
