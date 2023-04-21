@@ -75,12 +75,11 @@ jobs:
       env:
           BROWSER: chrome
 
-    - name: Save screenshots if Dusk fails
     - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: screenshots
-          path: screenshots/
+      if: always()
+      with:
+        name: screenshots
+        path: screenshots/
 
   # aws-deploy:
   #   if: github.event.pull_request.merged == true
