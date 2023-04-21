@@ -42,12 +42,18 @@ class ItemController extends Controller
     public function show($id)
     {
         $item = $this->itemRepository->find($id);
+        if (null === $item) {
+            abort(404);
+        }
         return view('item.show', compact('item'));
     }
 
     public function edit($id)
     {
         $item = $this->itemRepository->find($id);
+        if (null === $item) {
+            abort(404);
+        }
         if (!$item->isRentable()) {
             return redirect('/items');
         };
@@ -59,8 +65,8 @@ class ItemController extends Controller
         $item = $this->itemRepository->find($id);
 
         if (null === $item) {
-            $item = new Item();
-        };
+            abort(404);
+        }
 
         $item->name = data_get($request->validated(), 'name');
         $this->itemRepository->save($item);
@@ -79,7 +85,7 @@ class ItemController extends Controller
         $item = $this->itemRepository->find($id);
 
         if (null === $item) {
-            throw new Exception();
+            abort(404);
         }
 
         $this->itemRepository->delete($item);
