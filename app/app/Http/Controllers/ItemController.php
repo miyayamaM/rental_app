@@ -32,7 +32,7 @@ class ItemController extends Controller
 
     public function create(ItemRequest $request)
     {
-        $item = new Item;
+        $item = new Item();
         $item->name = data_get($request->validated(), 'name');
 
         $this->itemRepository->save($item);
@@ -59,7 +59,7 @@ class ItemController extends Controller
         $item = $this->itemRepository->find($id);
 
         if (null === $item) {
-            $item = new Item;
+            $item = new Item();
         };
 
         $item->name = data_get($request->validated(), 'name');
@@ -79,7 +79,7 @@ class ItemController extends Controller
         $item = $this->itemRepository->find($id);
 
         if (null === $item) {
-            throw new Exception;
+            throw new Exception();
         }
 
         $this->itemRepository->delete($item);
