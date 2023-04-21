@@ -8,6 +8,7 @@ use App\Http\Requests\ItemEditRequest;
 use App\Rules\IsEditable;
 use Illuminate\Support\Facades\Validator;
 use App\Domain\RepositoryInterfaces\InterfaceItemRepository;
+use Exception;
 
 class ItemController extends Controller
 {
@@ -31,19 +32,28 @@ class ItemController extends Controller
 
     public function create(ItemRequest $request)
     {
-        Item::create(['name' => $request->name]);
+        $item = new Item();
+        $item->name = data_get($request->validated(), 'name');
+
+        $this->itemRepository->save($item);
         return redirect('/items');
     }
 
     public function show($id)
     {
-        $item = Item::findOrFail($id);
+        $item = $this->itemRepository->find($id);
+        if (null === $item) {
+            abort(404);
+        }
         return view('item.show', compact('item'));
     }
 
     public function edit($id)
     {
-        $item = Item::findOrFail($id);
+        $item = $this->itemRepository->find($id);
+        if (null === $item) {
+            abort(404);
+        }
         if (!$item->isRentable()) {
             return redirect('/items');
         };
@@ -52,10 +62,16 @@ class ItemController extends Controller
 
     public function update(ItemEditRequest $request, $id)
     {
-        Item::findOrFail($id)->update([
-            'name' => $request->name
-        ]);
-        return redirect()->route('item.show', ['id' => $id]);
+        $item = $this->itemRepository->find($id);
+
+        if (null === $item) {
+            abort(404);
+        }
+
+        $item->name = data_get($request->validated(), 'name');
+        $this->itemRepository->save($item);
+
+        return redirect()->route('item.index');
     }
 
     public function destroy($id)
@@ -66,7 +82,13 @@ class ItemController extends Controller
 
         Validator::make(['id' => $id], $rules)->validate();
 
-        Item::findOrFail($id)->delete();
+        $item = $this->itemRepository->find($id);
+
+        if (null === $item) {
+            abort(404);
+        }
+
+        $this->itemRepository->delete($item);
         return redirect('/items');
     }
 }
