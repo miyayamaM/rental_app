@@ -32,9 +32,9 @@ jobs:
           - 4444:4444
       chrome:
         image: selenium/node-chrome:3.141.59-vanadium
-        environment:
-          - HUB_HOST=selenium-hub
-          - HUB_PORT=4444
+        env:
+          HUB_HOST: selenium-hub
+          HUB_PORT: 4444
 
     env:
       DB_CONNECTION: mysql
