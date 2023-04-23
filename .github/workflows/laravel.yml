@@ -36,14 +36,6 @@ jobs:
           HUB_HOST: selenium-hub
           HUB_PORT: 4444
 
-    env:
-      DB_CONNECTION: mysql
-      DB_HOST: 127.0.0.1
-      DB_PORT: 3306
-      DB_DATABASE: laravel
-      DB_USERNAME: user
-      DB_PASSWORD: password
-
     steps:
     - uses: shivammathur/setup-php@v2
       with:
