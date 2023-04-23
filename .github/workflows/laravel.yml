@@ -22,9 +22,9 @@ jobs:
           - 3306:3306
         options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
         env:
-          MYSQL_DATABASE: laravel
+          MYSQL_DATABASE: database_test
           MYSQL_USER: user
-          MYSQL_PASSWORD: password
+          MYSQL_PASSWORD: pass
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       selenium-hub:
           image: selenium/hub:3.141.59-vanadium
@@ -70,10 +70,19 @@ jobs:
       run: ./vendor/bin/phpcs --standard=phpcs.xml ./
       working-directory: ./app
     - name: Execute tests
-      run: make test
+      run: php artisan test --env=testing
       working-directory: ./app
+
+    # prepare for Dusk
+    - name: Install chrome driver
+      run: php artisan dusk:chrome-driver
+      working-directory: ./app
+    - name: Make bin files accessible
+      run: chmod -R 0755 vendor/laravel/dusk/bin
+      working-directory: ./app
+
     - name: Execute Laravel Dusk
-      run: make dusk
+      run: php artisan dusk --env=testing
       working-directory: ./app
 
     - uses: actions/upload-artifact@v2
