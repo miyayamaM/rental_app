@@ -27,11 +27,11 @@ jobs:
           MYSQL_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       selenium-hub:
-        image: selenium/hub:112.0
+        image: selenium/hub:4.9.0
         ports:
           - 4444:4444
       chrome:
-        image: selenium/node-chrome:112.0
+        image: selenium/node-chrome:4.9.0-20230421
         env:
           HUB_HOST: selenium-hub
           HUB_PORT: 4444
