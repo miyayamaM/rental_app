@@ -26,6 +26,15 @@ jobs:
           MYSQL_USER: user
           MYSQL_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      selenium-hub:
+        image: selenium/hub:4.9.0
+        ports:
+          - 4444:4444
+      chrome:
+        image: selenium/node-chrome:4.9.0-20230421
+        env:
+          HUB_HOST: selenium-hub
+          HUB_PORT: 4444
 
     env:
       DB_CONNECTION: mysql
@@ -55,9 +64,6 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
       working-directory: ./app
-    - name: Create Database
-      run: php artisan migrate
-      working-directory: ./app
     - name: Execute PHPStan analysis
       run: ./vendor/bin/phpstan analyse --memory-limit=2G
       working-directory: ./app
@@ -67,6 +73,24 @@ jobs:
     - name: Execute tests
       run: php artisan test
       working-directory: ./app
+
+    # prepare for Dusk
+    - name: Install chrome driver
+      run: php artisan dusk:chrome-driver
+      working-directory: ./app
+    - name: Make bin files accessible
+      run: chmod -R 0755 vendor/laravel/dusk/bin
+      working-directory: ./app
+
+    - name: Execute Laravel Dusk
+      run: php artisan dusk
+      working-directory: ./app
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: screenshots
+        path: screenshots/
 
   # aws-deploy:
   #   if: github.event.pull_request.merged == true

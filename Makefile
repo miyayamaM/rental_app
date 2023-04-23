@@ -22,9 +22,11 @@ migrate:
 	docker-compose exec app php artisan migrate
 
 test:
+	docker-compose exec app php artisan migrate --env=testing
 	docker-compose exec app php artisan test --env=testing
 
 dusk:
-	docker-compose exec app php artisan dusk:chrome-driver --detect
+	docker-compose exec app php artisan migrate --env=testing
+	docker-compose exec app php artisan dusk:chrome-driver
 	docker-compose exec app chmod -R 0755 vendor/laravel/dusk/bin
 	docker-compose exec app php artisan dusk --env=testing

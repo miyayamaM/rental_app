@@ -13,7 +13,7 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function baseUrl()
     {
-        return 'http://app:80';
+        return $_ENV['DUSK_BASE_URL'] ?? 'http://localhost:80';
     }
 
 
@@ -49,7 +49,7 @@ abstract class DuskTestCase extends BaseTestCase
         //     )
         // );
         return RemoteWebDriver::create(
-            'http://selenium-hub:4444/wd/hub',
+            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY,
                 $options
@@ -65,6 +65,6 @@ abstract class DuskTestCase extends BaseTestCase
     protected function hasHeadlessDisabled()
     {
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
-               isset($_ENV['DUSK_HEADLESS_DISABLED']);
+            isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
 }
