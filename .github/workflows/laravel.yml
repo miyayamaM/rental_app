@@ -26,8 +26,14 @@ jobs:
           MYSQL_USER: user
           MYSQL_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      selenium:
-        image: selenium/standalone-chrome
+      selenium-hub:
+          image: selenium/hub:3.141.59-vanadium
+          ports: 4444:4444
+      chrome:
+        image: selenium/node-chrome:3.141.59-vanadium
+        environment:
+          - HUB_HOST=selenium-hub
+          - HUB_PORT=4444
 
     env:
       DB_CONNECTION: mysql
@@ -57,9 +63,6 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
       working-directory: ./app
-    - name: Create Database
-      run: php artisan migrate
-      working-directory: ./app
     - name: Execute PHPStan analysis
       run: ./vendor/bin/phpstan analyse --memory-limit=2G
       working-directory: ./app
@@ -67,13 +70,11 @@ jobs:
       run: ./vendor/bin/phpcs --standard=phpcs.xml ./
       working-directory: ./app
     - name: Execute tests
-      run: php artisan test
+      run: make test
       working-directory: ./app
     - name: Execute Laravel Dusk
-      run: php artisan dusk
+      run: make dusk
       working-directory: ./app
-      env:
-          BROWSER: chrome
 
     - uses: actions/upload-artifact@v2
       if: always()
